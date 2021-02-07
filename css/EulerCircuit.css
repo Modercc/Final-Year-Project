@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../images/backgroundPicture.jpg);
+  background-position: center;
+  background-size: cover;
+  padding-left: 8%;
+  padding-right: 8%;
+  box-sizing: border-box;
+}
+
+.navbar {
+  height: 12%;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 50px;
+  cursor: pointer;
+}
+
+.menu-icon {
+  width: 30px;
+  cursor: pointer;
+  margin-left: 40px;
+}
+
+nav {
+  flex: 1;
+  text-align: right;
+}
+
+nav ul li {
+  list-style: none;
+  display: inline-block;
+  margin-left: 60px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 13px;
+}
+
+canvas {
+  border: 1px solid black;
+  margin: auto;
+}
+
+#draggable-elements, #droppable-space {
+  display: flex;
+  justify-content: center;
+  background-color: red;
+  width: 90%;
+  height: 8em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2em;
+  border-radius: 10px;
+}
+
+.draggable {
+  width: 3em;
+  height: 3em;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+  cursor: move;
+  transition: opacity 0.2s;
+  color: black;
+  border-radius: 10px;
+}
+
+.draggable:hover {
+  opacity: 0.5s;
+}
+
+span {
+  margin: 1em;
+}
+
+.hover {
+  border-width: 5px;
+  transform: scale(1.1);
+}
