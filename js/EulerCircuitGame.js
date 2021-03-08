@@ -10,6 +10,7 @@ var droppableCircuit = document.getElementById('droppable-space');
 draggableCircuit.addEventListener("dragstart", dragStart);
 droppableCircuit.addEventListener("drop", drop);
 
+// To check if the game can start at all
 function circuitExist()
 {
   if(PointsArray.length < 3)
@@ -20,6 +21,7 @@ function circuitExist()
   return true;
 }
 
+// Set all variables and event handlers
 function startGame()
 {
   options.switchOption(4);
@@ -37,6 +39,7 @@ function startGame()
   droppableCircuit.addEventListener("dragenter", dragEnter);
   droppableCircuit.addEventListener("dragleave", dragLeave);
   droppableCircuit.addEventListener("dragover", dragover);
+  draggableCircuit.ondragstart = function() { return false; };
 }
 
 function initiliazeArr()
@@ -47,35 +50,50 @@ function initiliazeArr()
   for (var i = 0; i < visitedEdges.length; i++)
     visitedEdges[i] = finalVisitedEdges[i];
   for (var i = 0; i < PointsArray.length; i++)
-    PointsArray[i].changeColor("white");
+    PointsArray[i].styleOption = 1;
   for (var i = 0; i < EdgeArray.length; i++) {
-    EdgeArray[i].color = "white";
+    EdgeArray[i].styleOption = 1;
   }
   while(draggableCircuit.firstChild)
     draggableCircuit.removeChild(draggableCircuit.firstChild);
 }
 
-function insideFinalCircuit(selectedPointIndex)
+function selectablePoint(selectedPointIndex)
 {
-  if(circuit.length != 0)
+  if(finalCircuit.length == 0)
     return true;
   for (var i = 0; i < finalCircuit.length; i++)
-    if(finalCircuit[i] == selectedPointIndex)
+    if(finalCircuit[i] == selectedPointIndex && degrees)
       return true;
   return false;
 }
 
 window.addEventListener('click', function(event) {
-  var selectedPointIndex;
-  if(options.mode == options.game)
+  var selectedPointIndex = getSelectedPointIndex();
+  if(options.mode == options.game && selectedPointIndex != undefined)
   {
-    for (var i = 0; i < PointsArray.length; i++)
-      if(PointsArray[i].distance(hover.x, hover.y) < PointsArray[i].radius)
+    console.log(circuit);
+    if(circuit.length == 0)
+    {
+      if(selectablePoint(selectedPointIndex) && degrees[selectedPointIndex] != 0)
+        addPoint(selectedPointIndex);
+    }
+    else
+    {
+      var connectingEdgeIndex = isConnected(PointsArray[selectedPointIndex], PointsArray[circuit[circuit.length - 1]]);
+      if(connectingEdgeIndex != undefined && !visitedEdges[connectingEdgeIndex])
       {
-        selectedPointIndex = i;
-        break;
+        EdgeArray[connectingEdgeIndex].styleOption = 2;
+        degrees[selectedPointIndex] -= 1;
+        degrees[circuit[circuit.length - 1]] -= 1;
+        visitedEdges[connectingEdgeIndex] = true;
+        addPoint(selectedPointIndex);
       }
-      if(selectedPointIndex != undefined && degrees[selectedPointIndex] != 0)
+      else
+        initiliazeArr();
+    }
+    /*
+      if(degrees[selectedPointIndex] != 0)
       {
         var connectingEdgeIndex = isConnected(PointsArray[selectedPointIndex], PointsArray[circuit[circuit.length - 1]]);
           if(connectingEdgeIndex == undefined || visitedEdges[connectingEdgeIndex])
@@ -84,9 +102,9 @@ window.addEventListener('click', function(event) {
           }
           else
           {
-            EdgeArray[connectingEdgeIndex].color = "green";
-            degrees[selectedPointIndex]-=1;
-            degrees[circuit[circuit.length - 1]]-=1;
+            EdgeArray[connectingEdgeIndex].styleOption = 2;
+            degrees[selectedPointIndex] -= 1;
+            degrees[circuit[circuit.length - 1]] -= 1;
             visitedEdges[connectingEdgeIndex] = true;
             // Arrow place
           }
@@ -99,22 +117,42 @@ window.addEventListener('click', function(event) {
         span.classList.add("draggable");
         draggableCircuit.appendChild(span);
       }
+      */
       if(degrees[selectedPointIndex] == 0 && circuit.length > 2)
       {
         console.log("Circuit created!");
-        draggableCircuit.setAttribute('draggable', true);
+        for (var i = 0; i < circuit.length; i++) {
+          EdgeArray[circuit[i]].styleOption = 3;
+        }
+        draggableCircuit.ondragstart = dragStart;
+        var arr = droppableCircuit.children;
+        for (var i = 0; i < arr.length; i++) {
+          arr[i].addEventListener("dragenter", dragEnter);
+          arr[i].addEventListener("dragleave", dragLeave);
+          arr[i].addEventListener("drop", drop);
+        }
       }
     }
-    }
 });
+
+function addPoint(pointIndex)
+{
+  PointsArray[pointIndex].styleOption = 2;
+  circuit.push(pointIndex);
+  var span = document.createElement("span");
+  span.innerHTML = PointsArray[pointIndex].symbol;
+  span.classList.add("draggable");
+  draggableCircuit.appendChild(span);
+}
 
 function mergeCircuits()
 {
   var i = 0;
   for (i = 0; i < finalCircuit.length && circuit[0] != finalCircuit[i]; i++);
+  console.log(circuit);
   finalCircuit.splice(i, 1, ...circuit);
-  for (var i = 0; i < finalCircuit.length; i++)
     console.log(PointsArray[finalCircuit[i]].symbol);
+    for (var i = 0; i < finalCircuit.length; i++)
   circuit = [];
   for (var i = 0; i < degrees.length; i++)
     finalDegrees[i] = degrees[i];
@@ -131,10 +169,13 @@ function writeCircuits()
     var span = document.createElement("span");
     span.innerHTML = PointsArray[finalCircuit[i]].symbol;
     span.classList.add("draggable");
+    span.ondragstart = function() { return false; }
     droppableCircuit.appendChild(span);
+    /*
     span.addEventListener("dragenter", dragEnter);
     span.addEventListener("dragleave", dragLeave);
     span.addEventListener("drop", drop);
+    */
   }
   while(draggableCircuit.firstChild)
     draggableCircuit.removeChild(draggableCircuit.firstChild);
@@ -142,7 +183,8 @@ function writeCircuits()
 
 function dragStart(event)
 {
-  event.dataTransfer.setData("text", event.target.innerHTML);
+  event.dataTransfer.setData("text", event.target.id);
+  console.log(event.dataTransfer.getData("text"));
 }
 
 function dragEnter(event)
@@ -159,7 +201,7 @@ function dragLeave(event)
 {
   event.target.classList.remove("hover");
   if(event.target != droppableCircuit)
-    event.target.style.backgroundColor = "white";
+    event.target.style.backgroundColor = "red";
 }
 
 function dragover(event)
@@ -178,6 +220,6 @@ function drop(event)
   {
     mergeCircuits();
     writeCircuits();
-    draggableCircuit.setAttribute('draggable', false);
+    draggableCircuit.ondragstart = function() { return false; };
   }
 }

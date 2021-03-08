@@ -54,44 +54,21 @@ canvas {
   margin: auto;
 }
 
-#draggable-elements, #droppable-space {
-  display: flex;
-  justify-content: center;
-  background-color: red;
-  width: 90%;
-  height: 8em;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 2em;
-  border-radius: 10px;
+.pop-up {
+  visibility: hidden;
+  width: 5em;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
 }
 
-#draggable-elements {
-  cursor: move;
-}
-
-.draggable {
-  width: 3em;
-  height: 3em;
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1em;
-  transition: opacity 0.2s;
-  color: black;
-  border-radius: 10px;
-}
-
-.draggable:hover {
-  opacity: 0.5s;
-}
-
-span {
-  margin: 1em;
-}
-
-.hover {
-  border-width: 5px;
-  transform: scale(1.1);
+.pop-up .show {
+  visibility: visible;
+  animation: fadeIn 1s;
 }
