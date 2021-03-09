@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Knapsack 0/1 Problem</title>
+    <link rel="stylesheet" href="../css/Knapsack.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar">
+        <!-- logo image here. class = "logo" -->
+        <nav>
+          <ul>
+            <li><a href="./index.html">HOME</a></li>
+            <li><a href="#">REGION</a></li>
+            <li><a href="#">ABOUT</a></li>
+          </ul>
+        </nav>
+        <img src="../images/menu.png" alt="menu icon" class="menu-icon">
+      </div>
+      <div class="Knapsack parametars">
+        <fieldset>
+          <label for="capacity">Capacity</label>
+          <input class="form-control" id="capacity" type="number" name="capacity" placeholder="Enter Knapsack Capacity">
+          <label for="items">Number of items</label>
+          <input class="form-control" id="items" type="number" name="itemsNo" placeholder="Enter number of Items">
+        </fieldset>
+        <button type="button" onclick="generateTable()">Generate table</button>
+      </div>
+      <div id="table">
+
+      </div>
+      <div id="inputSolutionTable">
+
+      </div>
+      <script src="../js/Knapsack.js">
+      </script>
+  </body>
+</html>
