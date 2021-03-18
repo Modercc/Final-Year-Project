@@ -10,19 +10,10 @@ function startGame()
   options.switchOption(4);
   selected = new Array(EdgeArray.length);
   sum = 0;
+  resetGraphStyle();
   for (var i = 0; i < EdgeArray.length; i++)
     selected[i] = false;
   console.log(connectedGraph());
-}
-
-function isConnected(point1, point2)
-{
-  if(point1 == undefined || point2 == undefined)
-    return undefined;
-  for (var i = 0; i < EdgeArray.length; i++)
-    if((EdgeArray[i].point1 == point1 && EdgeArray[i].point2 == point2) || (EdgeArray[i].point1 == point2 && EdgeArray[i].point2 == point1))
-      return i;
-  return undefined;
 }
 
 function sameTree(point1Index, point2Index)
@@ -203,6 +194,7 @@ window.addEventListener('click', function(event) {
     if(size == PointsArray.length)
     {
       alert("Game is completed.");
+      options.mode = 0;
     }
   }
 })

@@ -1,12 +1,14 @@
 var capacity;
 var items;
+var kTable;
+var correctCount;
 
 function generateTable()
 {
-  capacity = document.getElementById('capacity').value;
-  items = document.getElementById('items').value;
-  var theader = '<table class = "tabelItems" id="table"> <thead> <tr><th scope="col">Items</th> <th scope="col">Profit</th> <th scope="col">Weight</th> </tr> </thead>';
-  var tbody = '<tbody>';
+  capacity = parseInt(document.getElementById('capacity').value);
+  items = parseInt(document.getElementById('items').value);
+  var theader = '<table class = "tableItems"> <thead> <tr><th scope="col">Items</th> <th scope="col">Profit</th> <th scope="col">Weight</th> </tr> </thead>';
+  var tbody = '<tbody id="tbody">';
   for (var i = 0; i < items; i++)
   {
     tbody += '<tr> <td> Item ' + i + " </td>";
@@ -16,16 +18,17 @@ function generateTable()
   }
   tbody += '</tbody> </table>';
   var button = '<button type="button" onclick="generateAnotherTable()">Post the problem</button>'
-  document.getElementById('table').innerHTML = theader + tbody + button;
+  document.getElementById('table_div').innerHTML = theader + tbody + button;
 }
 
 function generateAnotherTable()
 {
   var theader = '<table class = "itemi" id="ne znam"> <thead> <tr> <th scope="col"></th>';
+  correctCount = 0;
   for (var i = 0; i <= capacity; i++)
       theader += '<th scope="col"> ' + i + ' </th> ';
   theader += '</tr> </thead>';
-  var tbody = '<tbody>';
+  var tbody = '<tbody id="solution">';
   for (var i = 0; i <= items; i++)
   {
     tbody += '<tr> <td> {';
@@ -41,10 +44,81 @@ function generateAnotherTable()
     tbody += '</tr>\n';
   }
   tbody += '</tbody> </table>';
-  var button = '<button type="button" onclick="">Submit</button>'
+  var button = '<button type="button" onclick="checkSolution()">Submit</button>'
   document.getElementById('inputSolutionTable').innerHTML = theader + tbody + button;
 }
 
+function checkSolution()
+{
+  generateResult();
+  var table = document.getElementById("solution");
+  for (var i = 0; i <= items; i++)
+    for (var j = 1; j <= (capacity + 1); j++)
+    {
+      var cellValue = table.rows[i].cells[j].children[0].value;
+      if(cellValue != "")
+      {
+        cellValue = parseInt(cellValue);
+        if(cellValue != kTable[i][j - 1])
+          table.rows[i].cells[j ].children[0].value = "";
+        else
+          {
+            table.rows[i].cells[j].innerHTML = "<p> " + cellValue + "</p>";
+            correctCount++;
+          }
+      }
+    }
+    if(correctCount == (items + 1) * (capacity + 1))
+      alert("Backtracking");
+}
+
+function generateResult()
+{
+    kProfit = 0;
+    profit = [];
+    weight = [];
+/*
+    var resultClass = document.getElementsByClassName("result");
+    console.log(resultClass.length);
+
+    for (i = 0; i < resultClass.length; i++) {
+        resultClass[i].style.visibility = "visible";
+    }
+*/
+    var tableId = document.getElementById("tbody");
+    for (var i = 0; i < items; i++)
+    {
+        pValue = parseInt(tableId.rows[i].cells[1].children[0].value);
+        profit.push(pValue)
+        wValue = parseInt(tableId.rows[i].cells[2].children[0].value);
+        weight.push(wValue)
+    }
+    knapsackAlgorithm();
+}
+
+function knapsackAlgorithm()
+{
+    kTable = new Array(items)
+    for (var i = 0; i <= items; i++)
+    {
+        kTable[i] = Array(capacity + 1)
+        for (var j = 0; j <= capacity; j++)
+            kTable[i][j] = 0;
+    }
+    for (var i = 1; i <= items; i++)
+        for (var j = 0; j <= capacity; j++)
+            if (weight[i - 1] <= j)
+                kTable[i][j] = (Math.max(kTable[i - 1][j], kTable[i - 1][j - weight[i - 1]] + profit[i - 1]));
+            else
+                kTable[i][j] = kTable[i - 1][j];
+    console.log(kTable);
+    console.log(kTable[items][capacity]);
+/*
+    kp01ResultantProfitId.innerHTML = knapsackTable[num_rows][knapsackCapacity]
+    kp01ProfitId.innerHTML = profit
+    kp01WeightId.innerHTML = weight
+*/
+}
 
 /*
 

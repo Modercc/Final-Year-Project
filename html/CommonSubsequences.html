@@ -2,8 +2,8 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Knapsack 0/1 Problem</title>
-    <link rel="stylesheet" href="../css/Knapsack.css">
+    <title>LCS / SCS</title>
+    <link rel="stylesheet" href="../css/CommonSubsequences.css">
   </head>
   <body>
     <div class="container">
@@ -18,12 +18,13 @@
         </nav>
         <img src="../images/menu.png" alt="menu icon" class="menu-icon">
       </div>
-      <div class="Knapsack parametars">
+      <img class="arrow" src="../images/x.png" alt="" onclick="swapArrow(this)">
+      <div class="">
         <fieldset>
-          <label for="capacity">Capacity</label>
-          <input class="form-control" id="capacity" type="number" name="capacity" placeholder="Enter Knapsack Capacity">
-          <label for="items">Number of items</label>
-          <input class="form-control" id="items" type="number" name="itemsNo" placeholder="Enter number of Items">
+          <label for="s1">S1: </label>
+          <input class="form-control" id="s1" type="text" name="s1" placeholder="Enter string 1">
+          <label for="s2">S2: </label>
+          <input class="form-control" id="s2" type="text" name="s2" placeholder="Enter string 2">
         </fieldset>
         <button type="button" onclick="generateTable()">Generate table</button>
       </div>
@@ -33,7 +34,10 @@
       <div id="inputSolutionTable">
 
       </div>
-      <script src="../js/Knapsack.js">
+      <div id="finalSolution">
+
+      </div>
+      <script src="../js/CommonSubsequences.js">
       </script>
   </body>
 </html>

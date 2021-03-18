@@ -10,6 +10,8 @@ var droppableCircuit = document.getElementById('droppable-space');
 draggableCircuit.addEventListener("dragstart", dragStart);
 droppableCircuit.addEventListener("drop", drop);
 
+options.multipleEdges = true;
+
 // To check if the game can start at all
 function circuitExist()
 {
@@ -18,28 +20,36 @@ function circuitExist()
   for (var i = 0; i < PointsArray.length; i++)
     if(PointsArray[i].degree % 2 == 1)
       return false;
+  if(!connectedGraph())
+    return false;
   return true;
 }
 
 // Set all variables and event handlers
 function startGame()
 {
-  options.switchOption(4);
-  finalDegrees = new Array(PointsArray.length);
-  finalCircuit = [];
-  degrees = new Array(PointsArray.length);
-  finalVisitedEdges = new Array(EdgeArray.length);
-  visitedEdges = new Array(EdgeArray.length);
-  for (var i = 0; i < degrees.length; i++)
-    finalDegrees[i] = PointsArray[i].degree;
-  for (var i = 0; i < visitedEdges.length; i++)
-    finalVisitedEdges[i] = false;
-  initiliazeArr();
-  droppableCircuit.addEventListener("drop", drop);
-  droppableCircuit.addEventListener("dragenter", dragEnter);
-  droppableCircuit.addEventListener("dragleave", dragLeave);
-  droppableCircuit.addEventListener("dragover", dragover);
-  draggableCircuit.ondragstart = function() { return false; };
+  if(circuitExist())
+  {
+    options.switchOption(4);
+    degrees = new Array(PointsArray.length);
+    finalDegrees = new Array(PointsArray.length);
+    finalCircuit = [];
+    visitedEdges = new Array(EdgeArray.length);
+    finalVisitedEdges = new Array(EdgeArray.length);
+    for (var i = 0; i < degrees.length; i++)
+      finalDegrees[i] = PointsArray[i].degree;
+    for (var i = 0; i < visitedEdges.length; i++)
+      finalVisitedEdges[i] = false;
+    initiliazeArr();
+    droppableCircuit.addEventListener("drop", drop);
+    droppableCircuit.addEventListener("dragenter", dragEnter);
+    droppableCircuit.addEventListener("dragleave", dragLeave);
+    droppableCircuit.addEventListener("dragover", dragover);
+    draggableCircuit.ondragstart = function() { return false; };
+    droppableCircuit.innerHTML = "";
+  }
+  else
+    alert("Redo the graph, circuit does not exist");
 }
 
 function initiliazeArr()
@@ -51,11 +61,10 @@ function initiliazeArr()
     visitedEdges[i] = finalVisitedEdges[i];
   for (var i = 0; i < PointsArray.length; i++)
     PointsArray[i].styleOption = 1;
-  for (var i = 0; i < EdgeArray.length; i++) {
-    EdgeArray[i].styleOption = 1;
-  }
-  while(draggableCircuit.firstChild)
-    draggableCircuit.removeChild(draggableCircuit.firstChild);
+  for (var i = 0; i < EdgeArray.length; i++)
+    if(!finalVisitedEdges[i])
+      EdgeArray[i].styleOption = 1;
+  draggableCircuit.innerHTML = "";
 }
 
 function selectablePoint(selectedPointIndex)
@@ -66,6 +75,16 @@ function selectablePoint(selectedPointIndex)
     if(finalCircuit[i] == selectedPointIndex && degrees)
       return true;
   return false;
+}
+
+function isConnected(point1, point2)
+{
+  if(point1 == undefined || point2 == undefined)
+    return undefined;
+  for (var i = 0; i < EdgeArray.length; i++)
+    if(((EdgeArray[i].point1 == point1 && EdgeArray[i].point2 == point2) || (EdgeArray[i].point1 == point2 && EdgeArray[i].point2 == point1)) && !visitedEdges[i])
+      return i;
+return undefined;
 }
 
 window.addEventListener('click', function(event) {
@@ -81,7 +100,7 @@ window.addEventListener('click', function(event) {
     else
     {
       var connectingEdgeIndex = isConnected(PointsArray[selectedPointIndex], PointsArray[circuit[circuit.length - 1]]);
-      if(connectingEdgeIndex != undefined && !visitedEdges[connectingEdgeIndex])
+      if(connectingEdgeIndex != undefined)
       {
         EdgeArray[connectingEdgeIndex].styleOption = 2;
         degrees[selectedPointIndex] -= 1;
@@ -92,47 +111,7 @@ window.addEventListener('click', function(event) {
       else
         initiliazeArr();
     }
-    /*
-      if(degrees[selectedPointIndex] != 0)
-      {
-        var connectingEdgeIndex = isConnected(PointsArray[selectedPointIndex], PointsArray[circuit[circuit.length - 1]]);
-          if(connectingEdgeIndex == undefined || visitedEdges[connectingEdgeIndex])
-          {
-            initiliazeArr();
-          }
-          else
-          {
-            EdgeArray[connectingEdgeIndex].styleOption = 2;
-            degrees[selectedPointIndex] -= 1;
-            degrees[circuit[circuit.length - 1]] -= 1;
-            visitedEdges[connectingEdgeIndex] = true;
-            // Arrow place
-          }
-          if(finalCircuit.length == 0 || insideFinalCircuit(selectedPointIndex))
-          {
-        PointsArray[selectedPointIndex].changeColor("red");
-        circuit.push(selectedPointIndex);
-        var span = document.createElement("span");
-        span.innerHTML = PointsArray[selectedPointIndex].symbol;
-        span.classList.add("draggable");
-        draggableCircuit.appendChild(span);
-      }
-      */
-      if(degrees[selectedPointIndex] == 0 && circuit.length > 2)
-      {
-        console.log("Circuit created!");
-        for (var i = 0; i < circuit.length; i++) {
-          EdgeArray[circuit[i]].styleOption = 3;
-        }
-        draggableCircuit.ondragstart = dragStart;
-        var arr = droppableCircuit.children;
-        for (var i = 0; i < arr.length; i++) {
-          arr[i].addEventListener("dragenter", dragEnter);
-          arr[i].addEventListener("dragleave", dragLeave);
-          arr[i].addEventListener("drop", drop);
-        }
-      }
-    }
+  }
 });
 
 function addPoint(pointIndex)
@@ -143,21 +122,49 @@ function addPoint(pointIndex)
   span.innerHTML = PointsArray[pointIndex].symbol;
   span.classList.add("draggable");
   draggableCircuit.appendChild(span);
+  if(degrees[pointIndex] == 0)
+  {
+    alert("Circuit created!");
+    for (var i = 0; i < visitedEdges.length; i++)
+      if(visitedEdges[i] && !finalVisitedEdges[i])
+        EdgeArray[i].styleOption = 3;
+    draggableCircuit.ondragstart = dragStart;
+    var arr = droppableCircuit.children;
+    for (var i = 0; i < arr.length; i++)
+    {
+      arr[i].addEventListener("dragenter", dragEnter);
+      arr[i].addEventListener("dragleave", dragLeave);
+      arr[i].addEventListener("drop", drop);
+    }
+  }
+}
+
+function pathCreated()
+{
+  for (var i = 0; i < finalDegrees.length; i++)
+    if(finalDegrees[i] != 0)
+      return false;
+  return true;
 }
 
 function mergeCircuits()
 {
   var i = 0;
   for (i = 0; i < finalCircuit.length && circuit[0] != finalCircuit[i]; i++);
-  console.log(circuit);
   finalCircuit.splice(i, 1, ...circuit);
-    console.log(PointsArray[finalCircuit[i]].symbol);
-    for (var i = 0; i < finalCircuit.length; i++)
   circuit = [];
   for (var i = 0; i < degrees.length; i++)
     finalDegrees[i] = degrees[i];
   for (var i = 0; i < visitedEdges.length; i++)
-    finalVisitedEdges[i] = visitedEdges[i];
+    if(visitedEdges[i] && !finalVisitedEdges[i])
+    {
+      finalVisitedEdges[i] = visitedEdges[i];
+      EdgeArray[i].styleOption = 4;
+    }
+  for (var i = 0; i < PointsArray.length; i++)
+    PointsArray[i].styleOption = 1;
+  if(pathCreated())
+    alert("End of the game");
 }
 
 function writeCircuits()
@@ -171,11 +178,6 @@ function writeCircuits()
     span.classList.add("draggable");
     span.ondragstart = function() { return false; }
     droppableCircuit.appendChild(span);
-    /*
-    span.addEventListener("dragenter", dragEnter);
-    span.addEventListener("dragleave", dragLeave);
-    span.addEventListener("drop", drop);
-    */
   }
   while(draggableCircuit.firstChild)
     draggableCircuit.removeChild(draggableCircuit.firstChild);
@@ -213,10 +215,12 @@ function drop(event)
 {
   event.preventDefault();
   event.target.classList.remove("hover");
+  /*
   if(event.target != droppableCircuit)
     event.target.style.backgroundColor = "white";
-  console.log("USAO");
-  if((finalCircuit.length == 0 && event.target == droppableCircuit) || event.target.innerHTML == PointsArray[circuit[0]].symbol)
+  */
+  console.log(circuit);
+  if((finalCircuit.length == 0 && event.target == droppableCircuit) || (circuit.length != 0 && event.target.innerHTML == PointsArray[circuit[0]].symbol))
   {
     mergeCircuits();
     writeCircuits();

@@ -22,12 +22,21 @@ options = {
   printVertexSymbol: true,
   game: 4,
   edgeLength: false,
+  multipleEdges: false,
+  drawArrows: false,
 
   switchOption: function(mode) {
     this.mode = mode;
   }
 }
 
+function resetGraphStyle()
+{
+  for (var i = 0; i < PointsArray.length; i++)
+    PointsArray[i].styleOption = 1;
+  for (var i = 0; i < EdgeArray.length; i++)
+    EdgeArray[i].styleOption = 1;
+}
 
 window.addEventListener('click', function(event) {
   var bounds = canvas.getBoundingClientRect();
@@ -200,7 +209,6 @@ window.addEventListener('mouseup', function(event)
             var edge = new Edge(options.shadowPoint, PointsArray[i]);
             EdgeArray.push(edge);
             // Getting edge length from the user
-            console.log(options.edgeLength);
             if(options.edgeLength)
               edge.length = parseInt(prompt("What is the lenth of the edge?"));
             break;
@@ -251,6 +259,7 @@ function getIndex(point)
   return undefined;
 }
 
+/*
 function isConnected(point1, point2)
 {
   if(point1 == undefined || point2 == undefined)
@@ -260,6 +269,7 @@ function isConnected(point1, point2)
       return i;
   return undefined;
 }
+*/
 
 // Class Circle is used for drawing points.
 
@@ -332,10 +342,13 @@ function validEdge(point1, point2) {
 
   if(point1 == point2)
     return false;
-  for (var i = 0; i < EdgeArray.length; i++)
-    if((EdgeArray[i].point1 === point1 && EdgeArray[i].point2 === point2)
-    || (EdgeArray[i].point1 === point2 && EdgeArray[i].point2 === point1))
-      return false;
+  if(!options.multipleEdges)
+  {
+    for (var i = 0; i < EdgeArray.length; i++)
+      if((EdgeArray[i].point1 === point1 && EdgeArray[i].point2 === point2)
+      || (EdgeArray[i].point1 === point2 && EdgeArray[i].point2 === point1))
+        return false;
+  }
   return true;
 }
 
@@ -349,6 +362,7 @@ function Edge(point1, point2)
   this.styleOption = 1;
   this.length = 0;
   this.offset = 0;
+  this.controlPointParametar = 70;
 
   this.distance = function(x, y)
   {
@@ -358,12 +372,25 @@ function Edge(point1, point2)
     var b = this.point2.y - this.point1.y;
     var c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     var distance = Math.abs(a * (this.point1.y - y) - b * (this.point1.x - x)) / c;
-    console.log(distance);
     if(distance < 3)
       return true;
     else
       return false;
   }
+
+  this.arrowDraw = function() {
+  var size = 15;
+  var eCoor = this.multipleEdges();
+  var xcp = eCoor[0]
+  var ycp = eCoor[1];
+  var dx = this.point2.x - xcp;
+  var dy = this.point2.y - ycp;
+  var angle = Math.atan2(dy, dx);
+  c.moveTo(this.point2.x, this.point2.y);
+  c.lineTo(this.point2.x - size * Math.cos(angle - Math.PI / 15), this.point2.y - size * Math.sin(angle - Math.PI / 15));
+  c.moveTo(this.point2.x, this.point2.y);
+  c.lineTo(this.point2.x - size * Math.cos(angle + Math.PI / 15), this.point2.y - size * Math.sin(angle + Math.PI / 15));
+}
 
   this.symbolCoordinates = function()
   {
@@ -377,14 +404,65 @@ function Edge(point1, point2)
     return [x, y];
   }
 
+  this.multipleEdges = function()
+  {
+    number = this.identicalEdgesNumber();
+    var point1;
+    var point2;
+    if(this.point1.x > this.point2.x || (this.point1.x == this.point2.x && this.point1.y > this.point2.y))
+    {
+      point1 = this.point1;
+      point2 = this.point2;
+    }
+    else
+    {
+      point1 = this.point2;
+      point2 = this.point1;
+    }
+    var a = point1.y - point2.y;
+    var b = point2.x - point1.x;
+    var c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+    a /= c;
+    b /= c;
+    var xcp = (point1.x + point2.x) / 2 - a * this.controlPointParametar * (number - 1) / 2;
+    var ycp = (point1.y + point2.y) / 2 - b * this.controlPointParametar * (number - 1) / 2;
+    xcp += a * this.controlPointParametar * this.edgeOrder();
+    ycp += b * this.controlPointParametar * this.edgeOrder();
+    return [xcp, ycp, a, b];
+  }
+
   this.setLength = function(length) {
     this.length = length;
   }
 
+  this.identicalEdgesNumber = function() {
+    var count = 0;
+    for (var i = 0; i < EdgeArray.length; i++)
+      if((EdgeArray[i].point1 === this.point1 && EdgeArray[i].point2 === this.point2)
+      || (EdgeArray[i].point1 === this.point2 && EdgeArray[i].point2 === this.point1))
+        count++;
+    return count;
+  }
+
+  this.edgeOrder = function() {
+    var order = 0;
+    for (var i = 0; i < EdgeArray.length; i++)
+      if(EdgeArray[i] == this)
+        return order;
+      else
+        if((EdgeArray[i].point1 === this.point1 && EdgeArray[i].point2 === this.point2)
+        || (EdgeArray[i].point1 === this.point2 && EdgeArray[i].point2 === this.point1))
+          order++;
+    return undefined;
+  }
+
   this.draw = function() {
     c.beginPath();
+    var eCoor = this.multipleEdges();
     c.moveTo(this.point1.x, this.point1.y);
-    c.lineTo(this.point2.x, this.point2.y);
+    c.quadraticCurveTo(eCoor[0], eCoor[1], this.point2.x, this.point2.y);
+    if(options.drawArrows)
+      this.arrowDraw();
     switch (this.styleOption) {
       case 1:
         c.strokeStyle = "rgba(255, 255, 255, 0.9)";
@@ -404,6 +482,12 @@ function Edge(point1, point2)
         this.offset++;
         if(this.offset > 16)
           this.offset = 0;
+        c.setLineDash([]);
+        break;
+      case 4:
+        c.strokeStyle = "rgba(0, 0, 255, 1.0)";
+        c.lineWidth = 1;
+        c.stroke();
         break;
       default:
 
@@ -411,7 +495,8 @@ function Edge(point1, point2)
     if(options.printEdgeSymbol)
     {
       var symbolCoo = [];
-      symbolCoo = this.symbolCoordinates();
+      symbolCoo = this.multipleEdges();
+      console.log(symbolCoo);
       c.font = "30px Arial";
       c.strokeText(this.symbol, symbolCoo[0], symbolCoo[1]);
       c.strokeText("Q", 100, 100);
@@ -419,9 +504,9 @@ function Edge(point1, point2)
     if(options.edgeLength)
     {
       var symbolCoo = [];
-      symbolCoo = this.symbolCoordinates();
+      symbolCoo = this.multipleEdges();
       c.font = "30px Arial";
-      c.strokeText(this.length, symbolCoo[0], symbolCoo[1]);
+      c.strokeText(this.length, symbolCoo[0] + symbolCoo[2] * 10, symbolCoo[1] + symbolCoo[3] * 10);
     }
   }
 }

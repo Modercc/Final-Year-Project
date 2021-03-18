@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/Dijkstra.css">
+    <title>Dijkstra Algorithm</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar">
+        <!-- logo image here. class = "logo" -->
+        <nav>
+          <ul>
+            <li><a href="./index.html">HOME</a></li>
+            <li><a href="#">REGION</a></li>
+            <li><a href="#">ABOUT</a></li>
+          </ul>
+        </nav>
+        <img src="../images/menu.png" alt="menu icon" class="menu-icon">
+      </div>
+      <div class="graph">
+        <div class="toolBar">
+          <button type="button" onclick="options.switchOption(0);">Select</button>
+          <button type="button" onclick="options.switchOption(1);">Vertex</button>
+          <button type="button" onclick="options.switchOption(2);">Edge</button>
+          <button type="button" onclick="options.switchOption(3);">Delete</button>
+          <button type="button" onclick="startGame();">Play</button>
+        </div>
+        <canvas id="canvas" width="300" height="300">TEXT</canvas>
+      </div>
+      <div id="inputSolutionTable">
+
+      </div>
+
+      <p id = "set"></p>
+
+      <div id = "button">
+
+      </div>
+      <p id="backtracking"></p>
+
+      <script src="../js/graph.js">
+      </script>
+
+      <script src="../js/Dijkstra.js">
+      </script>
+
+  </body>
+</html>
