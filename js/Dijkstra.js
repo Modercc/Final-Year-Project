@@ -5,10 +5,116 @@ var d;
 var b;
 var iteration;
 var backtracking;
+var generateIndex = 0;
 
 options.edgeLength = true;
 options.multipleEdges = true;
 options.drawArrows = true;
+
+function generateExercise()
+{
+  options.nextChar = 0;
+  for (var i = 0; i < PointsArray.length; i++)
+    console.log("x = " + PointsArray[i].x + " y = " + PointsArray[i].y);
+  PointsArray = [];
+  EdgeArray = [];
+  switch (generateIndex) {
+    case 0:
+      var point = new Circle(100, 200);
+      PointsArray.push(point);
+      var point = new Circle(305, 100);
+      PointsArray.push(point);
+      var point = new Circle(300, 300);
+      PointsArray.push(point);
+      var point = new Circle(505, 100);
+      PointsArray.push(point);
+      var point = new Circle(500, 300);
+      PointsArray.push(point);
+      var edge = new Edge(PointsArray[0], PointsArray[1]);
+      edge.length = 10;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[0], PointsArray[2]);
+      edge.length = 3;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[2]);
+      edge.length = 1;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[1]);
+      edge.length = 4;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[3]);
+      edge.length = 2;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[3]);
+      edge.length = 8;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[4]);
+      edge.length = 2;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[3], PointsArray[4]);
+      edge.length = 7;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[4], PointsArray[3]);
+      edge.length = 9;
+      EdgeArray.push(edge);
+      break;
+    case 1:
+      var point = new Circle(70, 200);
+      PointsArray.push(point);
+      var point = new Circle(305, 100);
+      PointsArray.push(point);
+      var point = new Circle(300, 300);
+      PointsArray.push(point);
+      var point = new Circle(505, 100);
+      PointsArray.push(point);
+      var point = new Circle(500, 300);
+      PointsArray.push(point);
+      var edge = new Edge(PointsArray[0], PointsArray[1]);
+      edge.length = 10;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[0], PointsArray[2]);
+      edge.length = 5;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[2]);
+      edge.length = 2;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[1]);
+      edge.length = 3;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[3]);
+      edge.length = 1;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[3]);
+      edge.length = 9;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[4]);
+      edge.length = 2;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[3], PointsArray[4]);
+      edge.length = 4;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[4], PointsArray[3]);
+      edge.length = 6;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[4], PointsArray[0]);
+      edge.length = 2;
+      EdgeArray.push(edge);
+      break;
+      case 2:
+
+      break;
+      case 3:
+
+      break;
+      case 4:
+
+      break;
+      case 5:
+
+      break;
+  }
+  generateIndex = (generateIndex + 1) % 6;
+}
 
 function startGame()
 {
@@ -32,12 +138,15 @@ function startGame()
     d[i] = undefined;
     b[i] = undefined;
   }
-  alert("Select the starting point");
+  document.getElementById('modalTitle').innerHTML='Notification!';
+  document.getElementById('modalBody').innerHTML='Select the starting point!';
+  $("#alertModal").modal('show');
+
 }
 
 function generateTableHeader()
 {
-  var theader = '<table id = "table"> <thead> <tr> <th> </th>';
+  var theader = '<table id = "table" class = " table table-bordered> <thead class="bg-primary text-light"> <tr> <th> </th>';
   for (var i = 0; i < PointsArray.length; i++)
       theader += '<th scope="col"> ' + PointsArray[i].symbol + ' </th> ';
   theader += "</tr> </thead> <tbody id='solution'> <tr> <td> d: </td>";
@@ -51,7 +160,7 @@ function generateTableHeader()
     theader += '<td> NIL </td>'
   theader += "</tr> </tbody> </table>";
   document.getElementById('inputSolutionTable').innerHTML += theader;
-  var button = '<button type="button" onclick="checkSolution()">Done</button>';
+  var button = '<button type="button" class="btn btn-primary" type="button" onclick="checkSolution()">Done</button>';
   document.getElementById('inputSolutionTable').innerHTML += button;
 }
 
@@ -156,7 +265,9 @@ function checkSolution()
     iteration++;
     if(iteration == PointsArray.length)
     {
-      alert("Backtracking");
+      document.getElementById('modalTitle').innerHTML='Notification!';
+      document.getElementById('modalBody').innerHTML='Backtracking!';
+      $("#alertModal").modal('show');
       backtracking = true;
     }
     else
@@ -173,14 +284,14 @@ function generateTableRow()
   var tbody = '<tr> <td> d: </td>';
   for (var i = 0; i < PointsArray.length; i++)
     if(!insideSelected(i))
-      tbody += '<td> <input type="texr" class="form" placeholder="Value"/> </td>';
+      tbody += '<td> <input type="text" class="form" placeholder="Value"/> </td>';
     else
       tbody += '<td> ' + d[i] +  ' </td>'
   tbody += ' </tr>';
   tbody += '<tr> <td> b: </td>';
   for (var i = 0; i < PointsArray.length; i++)
     if(!insideSelected(i))
-      tbody += '<td> <input type="texr" class="form" placeholder="Value"/> </td>';
+      tbody += '<td> <input type="text" class="form" placeholder="Value"/> </td>';
     else
       if(b[i] == undefined)
         tbody += '<td> nil </td>';
@@ -212,7 +323,9 @@ window.addEventListener('click', function(event)
           {
             selected.push(pointIndex);
             d[pointIndex] = 0;
-            alert("Select the ending point");
+            document.getElementById('modalTitle').innerHTML='Notification!';
+            document.getElementById('modalBody').innerHTML='Select the ending point!';
+            $("#alertModal").modal('show');
           }
           break;
         case 1:
@@ -251,7 +364,9 @@ window.addEventListener('click', function(event)
             varGoal = b[varGoal];
             if(varGoal == undefined)
             {
-              alert("End of the game.")
+              document.getElementById('modalTitle').innerHTML='Congratulations!';
+              document.getElementById('modalBody').innerHTML='End of the game!';
+              $("#alertModal").modal('show');
             }
         }
     }

@@ -3,31 +3,74 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../css/Dijkstra.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Dijkstra Algorithm</title>
   </head>
   <body>
-    <div class="container">
-      <div class="navbar">
-        <!-- logo image here. class = "logo" -->
-        <nav>
-          <ul>
-            <li><a href="./index.html">HOME</a></li>
-            <li><a href="#">REGION</a></li>
-            <li><a href="#">ABOUT</a></li>
-          </ul>
-        </nav>
-        <img src="../images/menu.png" alt="menu icon" class="menu-icon">
-      </div>
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">
+          <img src="../images/dsLogo.png" alt="Logo" style="width:40px;">
+        </a>
+
+        <!-- Links -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="About.html">About</a>
+          </li>
+
+          <!-- Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+              Greedy
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="Dijkstra.html">Dijkstra Alg</a>
+              <a class="dropdown-item" href="EulerCircuit.html">Euler Circuit</a>
+              <a class="dropdown-item" href="MinimumSpanningTree.html">Minimum Spanning Trees</a>
+            </div>
+          </li>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+              DP
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="Knapsack.html">Knapsack</a>
+              <a class="dropdown-item" href="CommonSubsequences.html">Common Sequences</a>
+
+            </div>
+          </li>
+
+        </ul>
+      </nav>
       <div class="graph">
-        <div class="toolBar">
-          <button type="button" onclick="options.switchOption(0);">Select</button>
-          <button type="button" onclick="options.switchOption(1);">Vertex</button>
-          <button type="button" onclick="options.switchOption(2);">Edge</button>
-          <button type="button" onclick="options.switchOption(3);">Delete</button>
-          <button type="button" onclick="startGame();">Play</button>
-        </div>
-        <canvas id="canvas" width="300" height="300">TEXT</canvas>
-      </div>
+
+      <div class="btn-group btn-group-lg">
+      <button type="button" class="btn btn-primary" onclick="options.switchOption(0);">Select</button>
+      <button type="button" class="btn btn-primary" onclick="options.switchOption(1);">Vertex</button>
+      <button type="button" class="btn btn-primary" onclick="options.switchOption(2);">Edge</button>
+      <button type="button" class="btn btn-primary" onclick="options.switchOption(3);">Delete</button>
+      <button type="button" class="btn btn-primary" onclick="startGame();">Play</button>
+
+    </div>
+      <div id="content" class="row">
+        <div id="canvasDiv" class="col-8">
+        <canvas id="canvas" >TEXT</canvas>
+    </div>
+ <div class="col-1"> </div>
+    <div  class="col-3">
+      <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal">Tutorial</button>
+      <button type="button" class="btn btn-danger btn-lg" onclick="generateExercise();">Generate exercise</button>
+    </div>
+  </div>
       <div id="inputSolutionTable">
 
       </div>
@@ -38,6 +81,80 @@
 
       </div>
       <p id="backtracking"></p>
+    </div>
+  </div>
+  <div class="modal fade" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Dijkstra Algorithm Tutorial</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <small class="text-muted"> <code>Relaxation:</code> The process of <code>testing</code> if we can find a <code>shorter path</code> to Y than the one obtained so far, <code>by including a given edge (X, Y)</code> in the constructed path.</small><br>
+            <small class="text-muted">The  <code>key</code> is to maintain a set S of nodes to which the  <code>shortest path has already been found</code>.</small><br><br>
+
+            <small class="text-muted">Dijkstra algorithm description:</small>
+
+          <p>1: Set S should <code>include the starting vertex v</code>.</p>
+          <p>2: <code>Relax</code> each vertex in the graph that is <code>outside the set S</code> using the last added vertex to the set S.</p>
+          <p>3: If there is <code>at least one</code> vertex outside of the set S, add to the set S the one with the <code>minimal distance</code> from the starting point found so far.</p> <br>
+
+          <small class="text-muted"> <code>Backtracking:</code> For each vertex keep its predecessor vertex and trace back the path to the starting vertex.</small>
+
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="alertModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 id="modalTitle" class="modal-title"></h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div id="modalBody" class="modal-body">
+
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="alertModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 id="modalTitle" class="modal-title"></h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div id="modalBody" class="modal-body">
+
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
 
       <script src="../js/graph.js">
       </script>

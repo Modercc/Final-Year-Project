@@ -6,6 +6,8 @@ var visitedEdges;
 var finalVisitedEdges;
 var draggableCircuit = document.getElementById('draggable-elements');
 var droppableCircuit = document.getElementById('droppable-space');
+var generateIndex = 0;
+
 
 draggableCircuit.addEventListener("dragstart", dragStart);
 droppableCircuit.addEventListener("drop", drop);
@@ -23,6 +25,115 @@ function circuitExist()
   if(!connectedGraph())
     return false;
   return true;
+}
+
+function generateExercise()
+{
+  options.nextChar = 0;
+  for (var i = 0; i < PointsArray.length; i++)
+    console.log("x = " + PointsArray[i].x + " y = " + PointsArray[i].y);
+  PointsArray = [];
+  EdgeArray = [];
+  switch (generateIndex) {
+    case 0:
+      var point = new Circle(100, 100);
+      PointsArray.push(point);
+      var point = new Circle(100, 300);
+      PointsArray.push(point);
+      var point = new Circle(200, 200);
+      PointsArray.push(point);
+      var point = new Circle(300, 100);
+      PointsArray.push(point);
+      var point = new Circle(300, 300);
+      PointsArray.push(point);
+      var edge = new Edge(PointsArray[0], PointsArray[1]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[0], PointsArray[2]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[3], PointsArray[4]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[4], PointsArray[2]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[2]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[3]);
+      EdgeArray.push(edge);
+      break;
+    case 1:
+      var point = new Circle(100, 100);
+      PointsArray.push(point);
+      var point = new Circle(100, 300);
+      PointsArray.push(point);
+      var point = new Circle(100, 500);
+      PointsArray.push(point);
+      var point = new Circle(300, 100);
+      PointsArray.push(point);
+      var point = new Circle(300, 300);
+      PointsArray.push(point);
+      var point = new Circle(300, 500);
+      PointsArray.push(point);
+      var edge = new Edge(PointsArray[0], PointsArray[1]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[2]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[3], PointsArray[4]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[4], PointsArray[5]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[0], PointsArray[3]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[4]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[4]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[5]);
+      EdgeArray.push(edge);
+      break;
+      case 2:
+      var point = new Circle(200, 100);
+      PointsArray.push(point);
+      var point = new Circle(100, 200);
+      PointsArray.push(point);
+      var point = new Circle(300, 200);
+      PointsArray.push(point);
+      var point = new Circle(100, 300);
+      PointsArray.push(point);
+      var point = new Circle(300, 300);
+      PointsArray.push(point);
+      var point = new Circle(200, 400);
+      PointsArray.push(point);
+      var edge = new Edge(PointsArray[0], PointsArray[1]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[0], PointsArray[2]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[2]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[3]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[4]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[3]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[4]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[3], PointsArray[4]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[3], PointsArray[5]);
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[4], PointsArray[5]);
+      EdgeArray.push(edge);
+      break;
+      case 3:
+
+      break;
+      case 4:
+
+      break;
+      case 5:
+
+      break;
+  }
+  generateIndex = (generateIndex + 1) % 6;
 }
 
 // Set all variables and event handlers
@@ -48,8 +159,11 @@ function startGame()
     draggableCircuit.ondragstart = function() { return false; };
     droppableCircuit.innerHTML = "";
   }
-  else
-    alert("Redo the graph, circuit does not exist");
+  else{
+  document.getElementById('modalTitle').innerHTML='Warning';
+  document.getElementById('modalBody').innerHTML='Circuit does not exist';
+  $("#alertModal").modal('show');}
+
 }
 
 function initiliazeArr()
@@ -120,11 +234,17 @@ function addPoint(pointIndex)
   circuit.push(pointIndex);
   var span = document.createElement("span");
   span.innerHTML = PointsArray[pointIndex].symbol;
+  span.classList.add("badge");
+  span.classList.add("badge-pill");
+  span.classList.add("badge-light");
   span.classList.add("draggable");
   draggableCircuit.appendChild(span);
   if(degrees[pointIndex] == 0)
   {
-    alert("Circuit created!");
+    //show("circuit is created");
+    document.getElementById('modalTitle').innerHTML='Notification!';
+    document.getElementById('modalBody').innerHTML='Circuit is created!';
+    $("#alertModal").modal('show');
     for (var i = 0; i < visitedEdges.length; i++)
       if(visitedEdges[i] && !finalVisitedEdges[i])
         EdgeArray[i].styleOption = 3;
@@ -163,8 +283,11 @@ function mergeCircuits()
     }
   for (var i = 0; i < PointsArray.length; i++)
     PointsArray[i].styleOption = 1;
-  if(pathCreated())
-    alert("End of the game");
+  if(pathCreated()){
+  document.getElementById('modalTitle').innerHTML='Congratulations!';
+  document.getElementById('modalBody').innerHTML='End of the game!';
+  $("#alertModal").modal('show');}
+
 }
 
 function writeCircuits()
@@ -175,7 +298,11 @@ function writeCircuits()
   for (var i = 0; i < finalCircuit.length; i++) {
     var span = document.createElement("span");
     span.innerHTML = PointsArray[finalCircuit[i]].symbol;
+
     span.classList.add("draggable");
+    span.classList.add("badge");
+    span.classList.add("badge-pill");
+    span.classList.add("badge-light");
     span.ondragstart = function() { return false; }
     droppableCircuit.appendChild(span);
   }

@@ -3,36 +3,118 @@
   <head>
     <meta charset="utf-8">
     <title>Knapsack 0/1 Problem</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/Knapsack.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <div class="container">
-      <div class="navbar">
-        <!-- logo image here. class = "logo" -->
-        <nav>
-          <ul>
-            <li><a href="./index.html">HOME</a></li>
-            <li><a href="#">REGION</a></li>
-            <li><a href="#">ABOUT</a></li>
-          </ul>
-        </nav>
-        <img src="../images/menu.png" alt="menu icon" class="menu-icon">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">
+          <img src="../images/dsLogo.png" alt="Logo" style="width:40px;">
+        </a>
+
+        <!-- Links -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="About.html">About</a>
+          </li>
+
+          <!-- Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+              Greedy
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="Dijkstra.html">Dijkstra Alg</a>
+              <a class="dropdown-item" href="EulerCircuit.html">Euler Circuit</a>
+              <a class="dropdown-item" href="MinimumSpanningTree.html">Minimum Spanning Trees</a>
+            </div>
+          </li>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+              DP
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="Knapsack.html">Knapsack</a>
+              <a class="dropdown-item" href="CommonSubsequences.html">Common Sequences</a>
+
+            </div>
+          </li>
+
+        </ul>
+      </nav>
+      <div class="formMargin row">
+        <div class="col">
+        <form>
+          <div class="input-group mb-3 input-group-lg wset">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Capacity:</span>
+            </div>
+            <input class="form-control" id="capacity" type="number" name="capacity" placeholder="Enter Knapsack Capacity">
+          </div>
+        </form>
+        <form>
+          <div class="input-group mb-3 input-group-lg wset">
+            <div class="input-group-prepend">
+              <span class="input-group-text"># of Items:</span>
+            </div>
+            <input class="form-control" id="items" type="number" name="itemsNo" placeholder="Enter number of Items">
+          </div>
+        </form>
+
+        <button type="button"  class="btn btn-primary" onclick="generateTable()">Generate table</button>
       </div>
-      <div class="Knapsack parametars">
-        <fieldset>
-          <label for="capacity">Capacity</label>
-          <input class="form-control" id="capacity" type="number" name="capacity" placeholder="Enter Knapsack Capacity">
-          <label for="items">Number of items</label>
-          <input class="form-control" id="items" type="number" name="itemsNo" placeholder="Enter number of Items">
-        </fieldset>
-        <button type="button" onclick="generateTable()">Generate table</button>
+      <div class="col">
+        <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal">Tutorial</button>
+        <button type="button" class="btn btn-danger btn-lg" onclick="generateExercise();">Generate exercise</button>
       </div>
       <div id = "table_div">
 
       </div>
-      <div id="inputSolutionTable">
+      <div id="inputSolutionTable" class="table-responsive">
 
       </div>
+      <div class="modal fade" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Knapsack Problem Tutorial</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <small class="text-muted"> <code> Knapsack Problem: </code> Let w and v be arrays such that w[i] and v[i] are <code>numbers representing weight</code> and value of the item i respectively and let w represent the <code>current capacity</code> of a knapsack. To obtain the solution of the 0/1 Knapsack problem fill in the table by following the rules displayed below: </small>
+                <br>
+                <br>
+              <p>1: If i = 0, then <code>OPT[i, w] = 0</code>.</p>
+              <p>2: If w[i] > w, then <code>OPT[i, w] is equal to OPT[i-1, w]</code>.</p>
+              <p>3: If w[i] < w, then <code>OPT[i, w]</code> is equal to the <code>bigger value</code></p><p> between OPT[i - 1, w] and v[i] + OPT[i - 1, w - w[i]].</p>
+              <br>
+                <small class="text-muted"> <code>  Backtracking:</code> For each cell in the table keep its predecessor cell and use it to trace back the final solution. </small>
+
+
+              </div>
+
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
       <script src="../js/Knapsack.js">
       </script>
   </body>

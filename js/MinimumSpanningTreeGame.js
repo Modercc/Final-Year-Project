@@ -3,9 +3,147 @@ var sum;
 var selected;
 options.edgeLength = true;
 var kruksalPoint;
+var generateIndex = 0;
+
+function generateExercise()
+{
+  options.nextChar = 0;
+  for (var i = 0; i < PointsArray.length; i++)
+    console.log("x = " + PointsArray[i].x + " y = " + PointsArray[i].y);
+  PointsArray = [];
+  EdgeArray = [];
+  switch (generateIndex) {
+    case 0:
+      var point = new Circle(100, 100);
+      PointsArray.push(point);
+      var point = new Circle(200, 100);
+      PointsArray.push(point);
+      var point = new Circle(300, 100);
+      PointsArray.push(point);
+      var point = new Circle(100, 200);
+      PointsArray.push(point);
+      var point = new Circle(300, 200);
+      PointsArray.push(point);
+      var point = new Circle(400, 200);
+      PointsArray.push(point);
+      var point = new Circle(50, 300);
+      PointsArray.push(point);
+      var point = new Circle(300, 300);
+      PointsArray.push(point);
+      var point = new Circle(400, 300);
+      PointsArray.push(point);
+      var point = new Circle(200, 400);
+      PointsArray.push(point);
+      var edge = new Edge(PointsArray[0], PointsArray[1]);
+      edge.length = 4;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[2]);
+      edge.length = 4;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[0], PointsArray[3]);
+      edge.length = 1;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[3]);
+      edge.length = 4;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[5]);
+      edge.length = 1;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[9]);
+      edge.length = 10;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[4]);
+      edge.length = 2;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[3], PointsArray[6]);
+      edge.length = 5;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[6], PointsArray[9]);
+      edge.length = 2;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[8], PointsArray[9]);
+      edge.length = 3;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[7], PointsArray[8]);
+      edge.length = 3;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[7], PointsArray[9]);
+      edge.length = 4;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[4], PointsArray[7]);
+      edge.length = 2;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[5], PointsArray[7]);
+      edge.length = 3;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[5], PointsArray[8]);
+      edge.length = 5;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[3], PointsArray[9]);
+      edge.length = 6;
+      EdgeArray.push(edge);
+      break;
+    case 1:
+      var point = new Circle(70, 200);
+      PointsArray.push(point);
+      var point = new Circle(305, 100);
+      PointsArray.push(point);
+      var point = new Circle(300, 300);
+      PointsArray.push(point);
+      var point = new Circle(505, 100);
+      PointsArray.push(point);
+      var point = new Circle(500, 300);
+      PointsArray.push(point);
+      var edge = new Edge(PointsArray[0], PointsArray[1]);
+      edge.length = 10;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[0], PointsArray[2]);
+      edge.length = 5;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[2]);
+      edge.length = 2;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[1]);
+      edge.length = 3;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[3]);
+      edge.length = 1;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[3]);
+      edge.length = 9;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[2], PointsArray[4]);
+      edge.length = 2;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[3], PointsArray[4]);
+      edge.length = 4;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[4], PointsArray[3]);
+      edge.length = 6;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[4], PointsArray[0]);
+      edge.length = 2;
+      EdgeArray.push(edge);
+      break;
+      case 2:
+
+      break;
+      case 3:
+
+      break;
+      case 4:
+
+      break;
+      case 5:
+
+      break;
+  }
+  generateIndex = (generateIndex + 1) % 6;
+}
 
 function startGame()
 {
+  console.log(gameMode);
   kruksalPoint = undefined;
   options.switchOption(4);
   selected = new Array(EdgeArray.length);
@@ -153,11 +291,19 @@ window.addEventListener('click', function(event) {
       if(selectedEdgeIndex != undefined && !selected[selectedEdgeIndex])
       {
         console.log("Minimum value: " + minimumValue());
-        if(EdgeArray[selectedEdgeIndex].length > minimumValue())
-          alert("Value not minimal!");
+        if(EdgeArray[selectedEdgeIndex].length > minimumValue()){
+          document.getElementById('modalTitle').innerHTML='Warning!';
+          document.getElementById('modalBody').innerHTML='Edge length not minimal!';
+          $("#alertModal").modal('show');
+
+        }
         else
         if(sameTree(getIndex(EdgeArray[selectedEdgeIndex].point1), getIndex(EdgeArray[selectedEdgeIndex].point2)))
-          alert("Inside the same tree!");
+        {
+        document.getElementById('modalTitle').innerHTML='Warning!';
+        document.getElementById('modalBody').innerHTML='Vertices of the edge are inside the same tree!';
+        $("#alertModal").modal('show');
+      }
         else
         {
           addEdge(selectedEdgeIndex);
@@ -170,30 +316,43 @@ window.addEventListener('click', function(event) {
           if(kruksalPoint == undefined)
           {
             kruksalPoint = getSelectedPointIndex();
-            console.log(kruksalPoint);
+            if(kruksalPoint != null)
+            {
+              console.log(kruksalPoint);
+              PointsArray[kruksalPoint].styleOption = 2;
+            }
           }
           else
           {
             var selectedEdgeIndex = selectEdge();
-            if(EdgeArray[selectedEdgeIndex].length > minimumValue2())
+            if(selectedEdgeIndex != null)
             {
-              alert("Not a minimum value");
-            }
-            else
-                if(!sameTree(getIndex(EdgeArray[selectedEdgeIndex].point1), getIndex(EdgeArray[selectedEdgeIndex].point2)) && (sameTree(kruksalPoint, getIndex(EdgeArray[selectedEdgeIndex].point1)) || sameTree(kruksalPoint, getIndex(EdgeArray[selectedEdgeIndex].point2))))
-                {
-                  addEdge(selectedEdgeIndex);
-                }
-                else
-                {
-                  alert("Bridge problem!");
-                }
+              if(EdgeArray[selectedEdgeIndex].length > minimumValue2())
+              {
+                document.getElementById('modalTitle').innerHTML='Warning!';
+                document.getElementById('modalBody').innerHTML='Edge length not minimal!';
+                $("#alertModal").modal('show');
+              }
+              else
+                  if(!sameTree(getIndex(EdgeArray[selectedEdgeIndex].point1), getIndex(EdgeArray[selectedEdgeIndex].point2)) && (sameTree(kruksalPoint, getIndex(EdgeArray[selectedEdgeIndex].point1)) || sameTree(kruksalPoint, getIndex(EdgeArray[selectedEdgeIndex].point2))))
+                  {
+                    addEdge(selectedEdgeIndex);
+                  }
+                  else
+                  {
+                    document.getElementById('modalTitle').innerHTML='Warning!';
+                    document.getElementById('modalBody').innerHTML='Vertices of the edge are inside the same tree!';
+                    $("#alertModal").modal('show');
+                  }
+              }
         }
     }
     size = connectedSpanningTree();
     if(size == PointsArray.length)
     {
-      alert("Game is completed.");
+      document.getElementById('modalTitle').innerHTML='Congratulations!';
+      document.getElementById('modalBody').innerHTML='End of the game!';
+      $("#alertModal").modal('show');
       options.mode = 0;
     }
   }

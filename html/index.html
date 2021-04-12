@@ -2,52 +2,116 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>??</title>
   </head>
   <body>
-    <div class="container">
-      <div class="navbar">
-        <!-- logo image here. class = "logo" -->
-        <nav>
-          <ul>
-            <li><a href="./index.html">HOME</a></li>
-            <li><a href="#">REGION</a></li>
-            <li><a href="#">ABOUT</a></li>
-          </ul>
-        </nav>
-        <img src="../images/menu.png" alt="menu icon" class="menu-icon">
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <h1>Algozakh</h1>
-          <p>Short description</p>
-          <button type="button"> Explore </button>
-        </div>
-        <div class="col">
-          <div class="card background1">
-            <h5>Greedy</h5>
-            <p>More text</p>
-          </div>
-          <div class="card background2">
-            <h5>Divide and Conquer</h5>
-            <p>More text</p>
-          </div>
-          <div class="card background3">
-            <h5>Dynamic Programming</h5>
-            <p>More text</p>
-          </div>
-          <div class="card background4">
-            <h5>Flow Algorithms</h5>
-            <p>More text</p>
-          </div>
-        </div>
-
-      </div>
-
+    <div class="jumbotron text-center" style="margin-bottom:0">
+      <h1>Algozakh</h1>
+      <h4>Visual representation of some famous <mark>Algorithms</mark> via games with <mark>feedback</mark></h4>
     </div>
 
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <a class="navbar-brand" href="index">Algozakh</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="About.html">About</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container1 container-fluid">
+      <div class="card-deck">
+      <div class="card cardL " >
+    <div class="card-body">
+      <img class="card-img-top" src="../images/card1.jpg" style="height:200px"alt="Greedy Alg" style="width:100%">
+      <h4 class="card-title">Greedy <small>Algorithms</small></h4>
+      <p class="card-text text-muted">problem-solving heuristic of making the locally optimal choice at each stage</p>
+      <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">Open Games</a>
+    </div>
+  </div>
+  <div class="card cardL " >
+<div class="card-body">
+    <img class="card-img-top" src="../images/card3.png" style="height:200px"alt="DP ALg" style="width:100%">
+  <h4 class="card-title">Dynamic <small> Programming </small></h4>
+  <p class="card-text text-muted">break down a complicated problem into simpler sub-problems in a recursive manner</p>
+  <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">Open Games</a>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="myModal1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Greedy Algorithms</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+
+        <small class="text-muted">This web application supports visual representation with tutorials <code>of the following greedy algorithms:</code></small>
+        <br>
+        <br>
+        <a href="Dijkstra.html" class="text-danger"><code>Dijkstra Algorithm</code></a>
+        <br>
+        <a href="EulerCircuit.html" class="text-danger"><code>Euler Circuit Algorithm</code></a>
+        <br>
+        <a href="MinimumSpanningTree.html" class="text-danger"><code>Minimum Spanning Tree Algorithm</code></a>
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="myModal3">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Dynamic Programming</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <small class="text-muted">This web application supports visual representation with tutorials <code>of the following greedy algorithms:</code><small>
+            <br>
+            <br>
+            <a href="CommonSubsequences.html"class="text-danger" ><code>Common Subsequences Algorithms</code></a>
+            <br>
+            <a href="Knapsack.html"class="text-danger" ><code>Knapsack Problem Algorithm</code</a>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
 
   </body>
 </html>

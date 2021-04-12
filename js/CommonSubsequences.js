@@ -6,35 +6,64 @@ var gameMode = 0;
 var arrowSrc = ["../images/arrow-l.png", "../images/arrow-u.png", "../images/arrow-d.png", "../images/x.png"];
 var correctCount;
 
-function generateTable()
+function produceRandomString()
+{
+  var a = 'a';
+  var str = "";
+  var randLength = Math.floor(Math.random() * 5) + 3;
+  for (var i = 0; i < randLength; i++)
+  {
+    var randomChar = String.fromCharCode(a.charCodeAt() + Math.floor(Math.random() * 4));
+    str += randomChar;
+  }
+  return str;
+}
+
+function collectInput()
 {
   s1 = document.getElementById('s1').value;
-  s2 = document.getElementById('s2').value
+  s2 = document.getElementById('s2').value;
+  generateTable();
+}
+
+function generateExercise()
+{
+  s1 = produceRandomString();
+  var s1Field = document.getElementById("s1");
+  s1Field.placeholder = s1;
+  s2 = produceRandomString();
+  var s2Field = document.getElementById("s2");
+  s2Field.placeholder = s2;
+  generateTable();
+}
+
+function generateTable()
+{
   correctCount = 0;
-  var theader = '<table class = "" id=""> <thead> <tr> <th scope="col"></th> <th scope="col"></th>';
+  var theader = '<table class = "table table-bordered" id=""> <thead class="bg-primary text-light"> <tr> <th scope="col"></th> <th scope="col"></th>';
   for (var i = 0; i < s1.length; i++)
-      theader += '<th scope="col"> ' + s1.charAt(i) + ' </th> ';
+      theader += '<th  scope="col" > <p  style="text-align:center"> ' + s1.charAt(i) + ' </p> </th> ';
   theader += '</tr> </thead>';
   var tbody = '<tbody id="solution">';
   for (var i = 0; i <= s2.length; i++)
   {
     if(i != 0)
-      tbody += '<tr> <td> ' + s2.charAt(i - 1) + ' </td>';
+      tbody += '<tr> <td class="bg-primary text-light font-weight-bold"> <p  style="text-align:center">' + s2.charAt(i - 1) + ' </p></td>';
     else
-      tbody += '<tr> <td> </td>';
+      tbody += '<tr> <td class="bg-primary"> </td>';
     for (var j = 0; j <= s1.length; j++)
       if(i == 0 || j == 0)
-        tbody += '<td> <input type="texr" class="form" placeholder="Value"/> </td>';
+        tbody += '<td> <div class="row"><input type="text" class="form col-12" placeholder="Value"/> </div></td>';
       else
-        tbody += '<td> <input type="texr" class="form" placeholder="Value"/> <img class="arrow" src="../images/arrow-l.png" alt="" onclick="swapArrow(this)"> </td>';
+        tbody += '<td><div class="row"> <input type="text" class="form col-8" placeholder="Value"/> <img class="arrow col-4" src="../images/arrow-l.png" alt="" onclick="swapArrow(this)"> </div></td>';
     tbody += '</tr>\n';
   }
   tbody += '</tbody> </table>';
   var button;
   if(gameMode == 0)
-    button = '<button type="button" onclick="checkSolution(lcsTable)">Submit</button>';
+    button = '<button type="button"  class="btn btn-primary" onclick="checkSolution(lcsTable)">Submit</button>';
   else
-    button = '<button type="button" onclick="checkSolution(scsTable)">Submit</button>';
+    button = '<button type="button" class="btn btn-primary" onclick="checkSolution(scsTable)">Submit</button>';
   document.getElementById('inputSolutionTable').innerHTML = theader + tbody + button;
   lcs();
   scs();
@@ -97,8 +126,10 @@ function checkSolution(arr)
     arrowCheck = scsArrowsCheck();
   if(arrowCheck && correctCount == arr.length * arr[0].length)
   {
-    alert("Use backtracking to find a solution");
-    document.getElementById('finalSolution').innerHTML = '<input type="texr" id="solutionString" class="form" placeholder="Value"/> <button type="button" onclick="checkFinalSolution(this);">Submit</button>';
+    document.getElementById('modalTitle').innerHTML='Notification!';
+    document.getElementById('modalBody').innerHTML='Use backtracking to find a solution!';
+    $("#alertModal").modal('show');
+    document.getElementById('finalSolution').innerHTML = '<input type="text" id="solutionString" class="form" placeholder="Value"/> <button type="button" class="btn btn-primary" onclick="checkFinalSolution(this);">Submit</button>';
   }
 }
 
@@ -110,9 +141,18 @@ function checkFinalSolution(input)
   else
     solution = computeSCSFinalSolution();
   if(solution.localeCompare(document.getElementById("solutionString").value) == 0)
-    alert("Game is over");
+  {
+
+    document.getElementById('modalTitle').innerHTML='Congratulations!';
+    document.getElementById('modalBody').innerHTML='End of the game!';
+    $("#alertModal").modal('show');
+  }
   else
-    alert("Try again");
+  {
+    document.getElementById('modalTitle').innerHTML='Warning!';
+    document.getElementById('modalBody').innerHTML='Incorrect solution! Try again.';
+    $("#alertModal").modal('show');
+  }
 }
 
 function computeLCSFinalSolution()
@@ -225,7 +265,7 @@ function lcsArrowsCheck()
   for (var i = 1; i < lcsTable.length; i++)
     for (var j = 2; j <= lcsTable[i].length; j++)
     {
-      var img = table.rows[i].cells[j].children[1];
+      var img = table.rows[i].cells[j].children[0].children[1];
       var imgIndex = imageIndex(img);
       if(s2.charAt(i - 1) == s1.charAt(j - 2))
         {
@@ -284,7 +324,7 @@ function scsArrowsCheck()
   for (var i = 1; i < scsTable.length; i++)
     for (var j = 2; j <= scsTable[i].length; j++)
     {
-      var img = table.rows[i].cells[j].children[1];
+      var img = table.rows[i].cells[j].children[0].children[1];
       var imgIndex = imageIndex(img);
       if(s2.charAt(i - 1) == s1.charAt(j - 2))
         {

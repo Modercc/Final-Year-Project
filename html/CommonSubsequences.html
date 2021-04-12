@@ -3,40 +3,164 @@
   <head>
     <meta charset="utf-8">
     <title>LCS / SCS</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/CommonSubsequences.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <div class="container">
-      <div class="navbar">
-        <!-- logo image here. class = "logo" -->
-        <nav>
-          <ul>
-            <li><a href="./index.html">HOME</a></li>
-            <li><a href="#">REGION</a></li>
-            <li><a href="#">ABOUT</a></li>
-          </ul>
-        </nav>
-        <img src="../images/menu.png" alt="menu icon" class="menu-icon">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">
+          <img src="../images/dsLogo.png" alt="Logo" style="width:40px;">
+        </a>
+
+        <!-- Links -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="About.html">About</a>
+          </li>
+
+          <!-- Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+              Greedy
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="Dijkstra.html">Dijkstra Alg</a>
+              <a class="dropdown-item" href="EulerCircuit.html">Euler Circuit</a>
+              <a class="dropdown-item" href="MinimumSpanningTree.html">Minimum Spanning Trees</a>
+            </div>
+          </li>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+              DP
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="Knapsack.html">Knapsack</a>
+              <a class="dropdown-item" href="CommonSubsequences.html">Common Sequences</a>
+
+            </div>
+          </li>
+
+        </ul>
+      </nav>
+      <form class="formMargin">
+    <div class="custom-control custom-radio custom-control-inline">
+      <input checked type="radio" class="custom-control-input" id="customRadio1" name="example1" onclick="gameMode = 0;">
+      <label class="custom-control-label" for="customRadio1">LCS</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+      <input type="radio" class="custom-control-input" id="customRadio2" name="example1" onclick="gameMode = 1;">
+      <label class="custom-control-label" for="customRadio2">SCS</label>
+    </div>
+
+  </form>
+      <div class="row">
+        <div class="col">
+        <form >
+          <div class="input-group mb-3 input-group-lg wset">
+            <div class="input-group-prepend">
+              <span class="input-group-text">S1:</span>
+            </div>
+            <input class="form-control " id="s1" type="text" name="s1" placeholder="Enter string 1">
+          </div>
+        </form>
+        <form>
+          <div class="input-group mb-3 input-group-lg wset">
+            <div class="input-group-prepend">
+              <span class="input-group-text">S2:</span>
+            </div>
+            <input class="form-control " id="s2" type="text" name="s2" placeholder="Enter string 2">
+          </div>
+        </form>
+
+        <button type="button" class="btn btn-primary" onclick="collectInput();">Generate table</button>
+        <br>
+        <br>
       </div>
-      <img class="arrow" src="../images/x.png" alt="" onclick="swapArrow(this)">
-      <div class="">
-        <fieldset>
-          <label for="s1">S1: </label>
-          <input class="form-control" id="s1" type="text" name="s1" placeholder="Enter string 1">
-          <label for="s2">S2: </label>
-          <input class="form-control" id="s2" type="text" name="s2" placeholder="Enter string 2">
-        </fieldset>
-        <button type="button" onclick="generateTable()">Generate table</button>
+      <div class="col">
+        <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal">Tutorial</button>
+        <button type="button" class="btn btn-danger btn-lg" onclick="generateExercise();">Generate exercise</button>
       </div>
-      <div id = "table_div">
+    </div>
+      <div id="inputSolutionTable" class="table-responsive">
 
       </div>
-      <div id="inputSolutionTable">
+      <div id="finalSolution" class="table-responsive">
 
       </div>
-      <div id="finalSolution">
 
-      </div>
+        <!-- Tutorial Modal  -->
+      <div class="modal fade" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Common Subsequences Algorithms Tutorial</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <!-- Modal body -->
+              <div class="modal-body">
+                <small class="text-muted"> <code>Longest Common Subsequence Algorithm: </code> Let <strong>x</strong> and <strong>y</strong> be the given strings. Fill in the cells in the table such that:</small>
+                <br>
+
+              <p>  1: If i or j <code> is equal to zero</code>, then <code>c[i, j] = 0.</code></p>
+              <p>  2: If x[i] is equal to y[j], then c[i, j] = c[i - 1, j - 1] + 1.</p>
+              <p>  3: If x[i] is not equal to y[j], then c[i, j] is equal to the bigger value between c[i, j - 1] and c[i - 1, j].</p>
+
+              <br>
+              <small class="text-muted"> <code>Shortest Common Supersequence Algorithm:</code>  Let <strong>x</strong> and <strong>y</strong> be the given strings. Fill in the cells in the table such that:</small>
+              <br>
+
+            <p>1: If i = 0, then c[i, j] = j</code>.</p>
+            <p>2: If j = 0, then <code>c[i, j] = i</code>.</p>
+            <p>3: If x[i] is equal to y[j], then <code>c[i, j] = c[i - 1, j - 1] + 1</code>.</p>
+            <p>4: If x[i] is not equal to y[j], then c[i, j] is equal to the <code> minimum value</code> between c[i, j - 1] + 1 and c[i - 1, j] + 1.</p>
+
+              <br>
+                <small class="text-muted"> <code> Backtracking: </code> For each cell in the table keep its predecessor cell and use it to trace back the final solution. </small>
+
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+          <!-- Alert Modal  -->
+        <div class="modal fade" id="alertModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 id="modalTitle" class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <!-- Modal body -->
+              <div id="modalBody" class="modal-body">
+
+              </div>
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
       <script src="../js/CommonSubsequences.js">
       </script>
   </body>

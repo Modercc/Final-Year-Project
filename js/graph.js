@@ -1,6 +1,6 @@
 var canvas = document.querySelector('canvas');
-canvas.width = window.innerWidth * 0.9;
-canvas.height = window.innerHeight * 0.7;
+canvas.width = document.getElementById('canvasDiv').offsetWidth;
+canvas.height = document.getElementById('canvasDiv').offsetHeight*0.7;
 var c = canvas.getContext('2d');
 
 var PointsArray = [];
