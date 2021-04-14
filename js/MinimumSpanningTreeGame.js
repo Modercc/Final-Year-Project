@@ -292,10 +292,12 @@ window.addEventListener('click', function(event) {
       {
         console.log("Minimum value: " + minimumValue());
         if(EdgeArray[selectedEdgeIndex].length > minimumValue()){
-          document.getElementById('modalTitle').innerHTML='Warning!';
-          document.getElementById('modalBody').innerHTML='Edge length not minimal!';
-          $("#alertModal").modal('show');
-
+          if(!selected[selectedEdgeIndex])
+          {
+            document.getElementById('modalTitle').innerHTML='Warning!';
+            document.getElementById('modalBody').innerHTML='Edge length is not minimal!';
+            $("#alertModal").modal('show');
+          }
         }
         else
         if(sameTree(getIndex(EdgeArray[selectedEdgeIndex].point1), getIndex(EdgeArray[selectedEdgeIndex].point2)))
@@ -339,11 +341,12 @@ window.addEventListener('click', function(event) {
                     addEdge(selectedEdgeIndex);
                   }
                   else
-                  {
-                    document.getElementById('modalTitle').innerHTML='Warning!';
-                    document.getElementById('modalBody').innerHTML='Vertices of the edge are inside the same tree!';
-                    $("#alertModal").modal('show');
-                  }
+                    if(!selected[selectedEdgeIndex])
+                    {
+                      document.getElementById('modalTitle').innerHTML='Warning!';
+                      document.getElementById('modalBody').innerHTML='Vertices of the edge are inside the same tree!';
+                      $("#alertModal").modal('show');
+                    }
               }
         }
     }

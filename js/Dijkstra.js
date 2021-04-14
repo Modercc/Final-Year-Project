@@ -194,6 +194,8 @@ function calculateRow()
         b[index] = top;
       }
     }
+    console.log(b);
+    console.log(d);
 }
 
 function checkSolution()
@@ -233,6 +235,7 @@ function checkSolution()
         }
       }
     }
+    console.log(b[i]);
     if(bRow.cells[i + 1].children[0] != undefined)
     {
       var bValue = bRow.cells[i + 1].children[0].value;
@@ -248,7 +251,7 @@ function checkSolution()
           allCorrect = false;
         }
       else
-        if(bValue == PointsArray[b[i]].symbol)
+        if(b[i] != undefined && bValue == PointsArray[b[i]].symbol)
         {
           bRow.cells[i + 1].removeChild(bRow.cells[i + 1].firstChild);
           bRow.cells[i + 1].innerHTML = bValue;
@@ -266,7 +269,7 @@ function checkSolution()
     if(iteration == PointsArray.length)
     {
       document.getElementById('modalTitle').innerHTML='Notification!';
-      document.getElementById('modalBody').innerHTML='Backtracking!';
+      document.getElementById('modalBody').innerHTML='Time for backtracking. Click on vertices inside the graph to trace back the final path!';
       $("#alertModal").modal('show');
       backtracking = true;
     }
@@ -323,6 +326,7 @@ window.addEventListener('click', function(event)
           {
             selected.push(pointIndex);
             d[pointIndex] = 0;
+            PointsArray[pointIndex].styleOption = 4;
             document.getElementById('modalTitle').innerHTML='Notification!';
             document.getElementById('modalBody').innerHTML='Select the ending point!';
             $("#alertModal").modal('show');
@@ -330,13 +334,17 @@ window.addEventListener('click', function(event)
           break;
         case 1:
           var pointIndex = getSelectedPointIndex();
-          if(pointIndex != undefined)
+          if(pointIndex != undefined && goal == undefined)
           {
             goal = pointIndex;
             varGoal = pointIndex;
+            PointsArray[pointIndex].styleOption = 4;
             generateTableHeader();
             generateTableRow();
             calculateRow();
+            document.getElementById('modalTitle').innerHTML='Notification!';
+            document.getElementById('modalBody').innerHTML='Fill in the Dijkstra table below!';
+            $("#alertModal").modal('show');
           }
           break;
         case 2:

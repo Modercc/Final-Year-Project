@@ -210,7 +210,7 @@ window.addEventListener('mouseup', function(event)
             EdgeArray.push(edge);
             // Getting edge length from the user
             if(options.edgeLength)
-              edge.length = parseInt(prompt("What is the lenth of the edge?"));
+              edge.length = parseInt(prompt("Enter the lenth of the edge:"));
             break;
           }
       options.shadowEdge = 0;
@@ -259,18 +259,6 @@ function getIndex(point)
   return undefined;
 }
 
-/*
-function isConnected(point1, point2)
-{
-  if(point1 == undefined || point2 == undefined)
-    return undefined;
-  for (var i = 0; i < EdgeArray.length; i++)
-    if((EdgeArray[i].point1 == point1 && EdgeArray[i].point2 == point2) || (EdgeArray[i].point1 == point2 && EdgeArray[i].point2 == point1))
-      return i;
-  return undefined;
-}
-*/
-
 // Class Circle is used for drawing points.
 
 function Circle(x, y) {
@@ -296,10 +284,16 @@ function Circle(x, y) {
     c.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
     switch (this.styleOption) {
       case 1:
-        c.fillStyle = "rgba(0, 0, 0, 0.8)";
+        c.fillStyle = "#F2DCE0";
         break;
       case 2:
-        c.fillStyle = "rgba(255, 0, 0, 1.0)";
+        c.fillStyle = "#D94862";
+        break;
+      case 3:
+        c.fillStyle = "#BF5A36";
+        break;
+      case 4:
+        c.fillStyle = "#D99379";
         break;
       default:
 
@@ -307,8 +301,9 @@ function Circle(x, y) {
     c.fill()
     if(options.printVertexSymbol)
     {
-      c.font = "30px Times New Roman";
-      c.strokeText(this.symbol, this.x + this.radius, this.y + this.radius);
+      c.fillStyle = "white";
+      c.font = "30px Arial";
+      c.fillText(this.symbol, this.x + this.radius, this.y + this.radius);
     }
   }
 
@@ -372,7 +367,7 @@ function Edge(point1, point2)
     var b = this.point2.y - this.point1.y;
     var c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     var distance = Math.abs(a * (this.point1.y - y) - b * (this.point1.x - x)) / c;
-    if(distance < 3)
+    if(distance < 10)
       return true;
     else
       return false;
@@ -470,14 +465,14 @@ function Edge(point1, point2)
         c.stroke();
         break;
       case 2:
-        c.strokeStyle = "rgba(255, 0, 0, 1.0)";
+        c.strokeStyle = "#A62139";
         c.lineWidth = 1;
         c.stroke();
         break;
       case 3:
         c.setLineDash([4, 2]);
         c.lineDashOffset = -this.offset;
-        c.strokeStyle = "rgba(0, 0, 255, 1)";
+        c.strokeStyle = "#0367A6";
         c.stroke();
         this.offset++;
         if(this.offset > 16)
@@ -485,7 +480,7 @@ function Edge(point1, point2)
         c.setLineDash([]);
         break;
       case 4:
-        c.strokeStyle = "rgba(0, 0, 255, 1.0)";
+        c.strokeStyle = "#BF5A36";
         c.lineWidth = 1;
         c.stroke();
         break;
@@ -494,19 +489,20 @@ function Edge(point1, point2)
     }
     if(options.printEdgeSymbol)
     {
+      c.fillStyle = "white";
       var symbolCoo = [];
       symbolCoo = this.multipleEdges();
       console.log(symbolCoo);
       c.font = "30px Arial";
-      c.strokeText(this.symbol, symbolCoo[0], symbolCoo[1]);
-      c.strokeText("Q", 100, 100);
+      c.fillText(this.symbol, symbolCoo[0], symbolCoo[1]);
     }
     if(options.edgeLength)
     {
+      c.fillStyle = "white";
       var symbolCoo = [];
       symbolCoo = this.multipleEdges();
       c.font = "30px Arial";
-      c.strokeText(this.length, symbolCoo[0] + symbolCoo[2] * 10, symbolCoo[1] + symbolCoo[3] * 10);
+      c.fillText(this.length, symbolCoo[0] + symbolCoo[2] * 10, symbolCoo[1] + symbolCoo[3] * 10);
     }
   }
 }
