@@ -47,11 +47,11 @@ function generateTable()
   generatedExercise = false;
   capacity = parseInt(document.getElementById('capacity').value);
   items = parseInt(document.getElementById('items').value);
-  var theader = '<table class = "tableItems table table-bordered "> <thead class="bg-primary text-light"> <tr><th scope="col">Items</th> <th scope="col">Profit</th> <th scope="col">Weight</th> </tr> </thead>';
+  var theader = '<table class = "tableItems table table-bordered "> <thead class="bg-primary text-light"> <tr><th scope="col">Items</th> <th scope="col"><p  style="text-align:center">Profit</p></th> <th scope="col"><p  style="text-align:center">Weight</p></th> </tr> </thead>';
   var tbody = '<tbody id="tbody">';
   for (var i = 0; i < items; i++)
   {
-    tbody += '<tr> <td  class="bg-primary text-light font-weight-bold"> Item ' + i + " </td>";
+    tbody += '<tr> <td  class="bg-primary text-light font-weight-bold"><p  style="text-align:center"> Item ' + i + " </p></td>";
     for (var j = 0; j < 2; j++)
       tbody += '<td> <input type="number" class="form" placeholder="Value"/> </td>';
     tbody += '</tr>\n';
@@ -66,21 +66,21 @@ function generateAnotherTable()
   var theader = '<table class = "itemi table table-bordered" id="ne znam"> <thead class="bg-primary text-light"> <tr> <th scope="col"></th>';
   correctCount = 0;
   for (var i = 0; i <= capacity; i++)
-      theader += '<th scope="col"> ' + i + ' </th> ';
+      theader += '<th scope="col"> <p  style="text-align:center"> ' + i + '</p> </th> ';
   theader += '</tr> </thead>';
   var tbody = '<tbody id="solution">';
   for (var i = 0; i <= items; i++)
   {
     tbody += '<tr> <td class="bg-primary text-light font-weight-bold"> <p>{';
-    for (var j = 0; j <= i; j++)
-      if(j == 1)
-        tbody += ' 1';
+    for (var j = 0; j < i; j++)
+      if(j == 0)
+        tbody += ' 0';
       else
-        if(j > 1)
+        if(j > 0)
           tbody += ', ' + j;
     tbody += ' } </p></td>';
     for (var j = 0; j <= capacity; j++)
-      tbody += '<td> <input type="number" class="form" placeholder="Value"/> </td>';
+      tbody += '<td> <input type="number" class="form  col-12" placeholder="Value"/> </td>';
     tbody += '</tr>\n';
   }
   tbody += '</tbody> </table>';
@@ -111,10 +111,12 @@ function checkSolution()
     console.log(correctCount);
     console.log((items + 1) * (capacity + 1));
     if(correctCount == (items + 1) * (capacity + 1))
-      {  document.getElementById('modalTitle').innerHTML='Congratulations!';
-        document.getElementById('modalBody').innerHTML='End of the game!';
-        $("#alertModal").modal('show');
-      }
+    {
+    document.getElementById('modalTitle').innerHTML='Notification!';
+    document.getElementById('modalBody').innerHTML='Time for backtracking. Choose the items to be selected!';;
+    $("#alertModal").modal('show');
+    generateItemsSelection();
+  }
 }
 
 function generateResult()
@@ -156,13 +158,43 @@ function knapsackAlgorithm()
 
 function generateItemsSelection()
 {
-  var itemsSelection = "<form> "
+  var itemsSelection = "<form id = 'itemsSelection'> ";
   for (var i = 0; i < items; i++)
   {
     itemsSelection += '<input type="checkbox" id="item' + i + '" name="item' + i + '"> <label for="item' + i + '"> Item' + i + '</label> ';
   }
-  itemsSelection += '</form> <button>Check</button>';
-  console.log(itemsSelection);
+  itemsSelection += '</form> <button class="btn btn-primary" onclick = "checkItemSelection();">Check</button>';
   var itemsSelectionDiv = document.getElementById("itemsSelection");
   itemsSelectionDiv.innerHTML = itemsSelection;
+}
+
+function checkItemSelection()
+{
+  var selectedProfit = 0;
+  var selectedWeight = 0;
+  for (var i = 0; i < items; i++)
+  {
+    var buttonChecked = document.getElementById("item" + i);
+    if(buttonChecked.checked)
+    {
+      selectedProfit += profit[i];
+      selectedWeight += weight[i];
+    }
+  }
+  if(kTable[items][capacity] == selectedProfit && selectedWeight <= capacity)
+  {
+    document.getElementById('modalTitle').innerHTML='Congratulations!';
+    document.getElementById('modalBody').innerHTML='End of the game!';;
+    $("#alertModal").modal('show');
+  }
+  else
+  {
+    document.getElementById('modalTitle').innerHTML='Warning!';
+    document.getElementById('modalBody').innerHTML='Item selection is not optimal!';;
+    $("#alertModal").modal('show');
+  }
+  console.log(selectedProfit);
+  console.log(selectedWeight);
+  console.log(kTable[items][capacity]);
+  console.log(kTable);
 }

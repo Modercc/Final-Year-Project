@@ -2,7 +2,7 @@ var s1;
 var s2;
 var lcsTable;
 var scsTable;
-var gameMode = 0;
+var gameMode = 1;
 var arrowSrc = ["../images/arrow-l.png", "../images/arrow-u.png", "../images/arrow-d.png", "../images/x.png"];
 var correctCount;
 
@@ -104,17 +104,18 @@ function checkSolution(arr)
   for (var i = 0; i < arr.length; i++)
     for (var j = 1; j <= arr[i].length; j++)
     {
-        var cellValue = table.rows[i].cells[j].children[0].value;
+        var cellValue = table.rows[i].cells[j].children[0].children[0].value;
         if(cellValue != "")
         {
           cellValue = parseInt(cellValue);
+          console.log(cellValue);
           if(cellValue != arr[i][j - 1])
-            table.rows[i].cells[j ].children[0].value = "";
+            table.rows[i].cells[j ].children[0].children[0].value = "";
           else
           {
-            table.rows[i].cells[j].removeChild(table.rows[i].cells[j].children[0]);
+            table.rows[i].cells[j].children[0].removeChild(table.rows[i].cells[j].children[0].children[0]);
             var str = "<p> " + cellValue + " </p>";
-            table.rows[i].cells[j].innerHTML = str.concat(table.rows[i].cells[j].innerHTML);
+            table.rows[i].cells[j].children[0].innerHTML = str.concat(table.rows[i].cells[j].children[0].innerHTML);
             correctCount++;
           }
         }
@@ -127,14 +128,15 @@ function checkSolution(arr)
   if(arrowCheck && correctCount == arr.length * arr[0].length)
   {
     document.getElementById('modalTitle').innerHTML='Notification!';
-    document.getElementById('modalBody').innerHTML='Use backtracking to find a solution!';
+    document.getElementById('modalBody').innerHTML='Time for backtracking. Choose !';
     $("#alertModal").modal('show');
-    document.getElementById('finalSolution').innerHTML = '<input type="text" id="solutionString" class="form" placeholder="Value"/> <button type="button" class="btn btn-primary" onclick="checkFinalSolution(this);">Submit</button>';
+    document.getElementById('finalSolution').innerHTML = '<label for="solutionString"> Enter the final solution: </label> <input type="text" id="solutionString" class="form" placeholder="Value"/> <button type="button" class="btn btn-primary" onclick="checkFinalSolution(this);">Submit</button>';
   }
 }
 
 function checkFinalSolution(input)
 {
+  console.log("in");
   var solution
   if(gameMode == 0)
     solution = computeLCSFinalSolution();
@@ -170,7 +172,7 @@ function computeLCSFinalSolution()
         i--;
       else
       {
-          var img = table.rows[i].cells[j + 1].children[1];
+          var img = table.rows[i].cells[j + 1].children[0].children[1];
           var imgIndex = imageIndex(img);
           switch (imgIndex)
           {
@@ -214,7 +216,7 @@ function computeSCSFinalSolution()
         }
       else
       {
-          var img = table.rows[i].cells[j + 1].children[1];
+          var img = table.rows[i].cells[j + 1].children[0].children[1];
           var imgIndex = imageIndex(img);
           switch (imgIndex)
           {

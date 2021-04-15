@@ -53,35 +53,34 @@
         </ul>
       </nav>
       <div class="formMargin row">
-        <div class="col">
+        <div class="col-6">
         <form>
-          <div class="input-group mb-3 input-group-lg wset">
+          <div class="input-group mb-3 input-group-lg ">
             <div class="input-group-prepend">
-              <span class="input-group-text">Capacity:</span>
+              <span class="input-group-text ">Capacity:</span>
             </div>
-            <input class="form-control" id="capacity" type="number" name="capacity" placeholder="Enter Knapsack Capacity">
+            <input class="form-control " id="capacity" type="number" name="capacity" placeholder="Enter Knapsack Capacity">
           </div>
         </form>
         <form>
-          <div class="input-group mb-3 input-group-lg wset">
+          <div class="input-group mb-3 input-group-lg ">
             <div class="input-group-prepend">
-              <span class="input-group-text"># of Items:</span>
+              <span class="input-group-text "># of Items:</span>
             </div>
-            <input class="form-control" id="items" type="number" name="itemsNo" placeholder="Enter number of Items">
+            <input class="form-control " id="items" type="number" name="itemsNo" placeholder="Enter number of Items">
           </div>
         </form>
 
         <button type="button"  class="btn btn-primary" onclick="generateTable()">Generate table</button>
       </div>
-      <div class="col">
+      <div class="col-3">
         <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal">Tutorial</button>
         <button type="button" class="btn btn-danger btn-lg" onclick="generateExercise();">Generate exercise</button>
       </div>
-      <div id = "table_div">
+      <div id = "table_div" class="col-3">
 
       </div>
-      <button type="button" name="button" onclick="generateItemsSelection();">Testing</button>
-      <div id="itemsSelection">
+      <div id="itemsSelection" class="custom-control custom-checkbox">
 
       </div>
       <div id="inputSolutionTable" class="table-responsive">
@@ -111,6 +110,27 @@
               </div>
 
 
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="alertModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 id="modalTitle" class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <!-- Modal body -->
+              <div id="modalBody" class="modal-body">
+
+              </div>
               <!-- Modal footer -->
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

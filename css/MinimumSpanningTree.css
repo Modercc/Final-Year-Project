@@ -4,9 +4,13 @@
   font-family: sans-serif;
 }
 
+body {
+  height: 100%;
+}
+
 .container-fluid {
 background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../images/backgroundPicture.jpg);
-height: 100vh;
+height: 110vh;
 }
 
 
@@ -41,6 +45,6 @@ form{
   margin-bottom: 10px;
 }
 .col-1, .col-8{
-  
+
   height: 80vh;
 }

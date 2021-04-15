@@ -243,7 +243,7 @@ function addPoint(pointIndex)
   {
     //show("circuit is created");
     document.getElementById('modalTitle').innerHTML='Notification!';
-    document.getElementById('modalBody').innerHTML='Circuit is created!';
+    document.getElementById('modalBody').innerHTML='Circuit is created! Drag the newly obtained circuit to the merging box below.';
     $("#alertModal").modal('show');
     for (var i = 0; i < visitedEdges.length; i++)
       if(visitedEdges[i] && !finalVisitedEdges[i])

@@ -301,7 +301,7 @@ function generateTableRow()
       else
         tbody += '<td> ' + PointsArray[b[i]].symbol +  ' </td>';
   tbody += ' </tr>';
-  var setS = "{ ";
+  var setS = "S: { ";
   for (var i = 0; i < selected.length; i++)
     if(i == 0)
       setS += PointsArray[selected[i]].symbol;
@@ -363,11 +363,11 @@ window.addEventListener('click', function(event)
           PointsArray[pointIndex].styleOption = 2;
           if(goal == varGoal)
             {
-              paragraph.innerHTML += PointsArray[varGoal].symbol;
+              paragraph.innerHTML += "<span class = 'badge badge-pill badge-light'>" + PointsArray[varGoal].symbol + "<\span>";
             }
             else
             {
-              paragraph.innerHTML += " <- " + PointsArray[varGoal].symbol;
+              paragraph.innerHTML += "<img src='../images/arrowDijkstra.png' class = 'backtrack' alt=''>" + "<span class = 'badge badge-pill badge-light'>" + PointsArray[varGoal].symbol + "<\span>";
             }
             varGoal = b[varGoal];
             if(varGoal == undefined)

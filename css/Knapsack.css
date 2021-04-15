@@ -16,9 +16,7 @@ height: 100vh;
    margin-bottom: 2%;
    margin-top: 2%;
  }
- .wset{
-   width: 50vw;
- }
+
  .table td, .table th{
   padding: 0;
   text-align: center;
@@ -27,14 +25,29 @@ height: 100vh;
 .table td{
   background-color: #fff;
 }
- input{
+
+p, input, .row{
   margin : 0;
   padding: 0;
   border: #fff;
 
 }
+
 p{
-  display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
+  padding-left: 10px;
+  padding-right: 10px;
+   white-space: nowrap;
+}
+.col-6,.col-3{
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+ .col-12{
+  padding: 0;
+  text-align: center;
+
+}
+
+#tbody input {
+  max-width: 5em;
 }
