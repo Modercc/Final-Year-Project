@@ -5,11 +5,10 @@ options.edgeLength = true;
 var kruksalPoint;
 var generateIndex = 0;
 
+// Function for generating exercises
 function generateExercise()
 {
   options.nextChar = 0;
-  for (var i = 0; i < PointsArray.length; i++)
-    console.log("x = " + PointsArray[i].x + " y = " + PointsArray[i].y);
   PointsArray = [];
   EdgeArray = [];
   switch (generateIndex) {
@@ -84,66 +83,94 @@ function generateExercise()
       EdgeArray.push(edge);
       break;
     case 1:
-      var point = new Circle(70, 200);
+    var point = new Circle(200, 100);
+    PointsArray.push(point);
+    var point = new Circle(100, 200);
+    PointsArray.push(point);
+    var point = new Circle(300, 200);
+    PointsArray.push(point);
+    var point = new Circle(100, 300);
+    PointsArray.push(point);
+    var point = new Circle(300, 300);
+    PointsArray.push(point);
+    var point = new Circle(200, 400);
+    PointsArray.push(point);
+    var edge = new Edge(PointsArray[0], PointsArray[1]);
+    edge.length = 2;
+    EdgeArray.push(edge);
+    var edge = new Edge(PointsArray[0], PointsArray[2]);
+    edge.length = 2;
+    EdgeArray.push(edge);
+    var edge = new Edge(PointsArray[1], PointsArray[2]);
+    edge.length = 3;
+    EdgeArray.push(edge);
+    var edge = new Edge(PointsArray[1], PointsArray[3]);
+    edge.length = 3;
+    EdgeArray.push(edge);
+    var edge = new Edge(PointsArray[2], PointsArray[4]);
+    edge.length = 4;
+    EdgeArray.push(edge);
+    var edge = new Edge(PointsArray[2], PointsArray[3]);
+    edge.length = 2;
+    EdgeArray.push(edge);
+    var edge = new Edge(PointsArray[3], PointsArray[4]);
+    edge.length = 2;
+    EdgeArray.push(edge);
+    var edge = new Edge(PointsArray[3], PointsArray[5]);
+    edge.length = 4;
+    EdgeArray.push(edge);
+    var edge = new Edge(PointsArray[4], PointsArray[5]);
+    edge.length = 2;
+    EdgeArray.push(edge);
+      break;
+    case 2:
+      var point = new Circle(200, 100);
       PointsArray.push(point);
-      var point = new Circle(305, 100);
+      var point = new Circle(105, 100);
+      PointsArray.push(point);
+      var point = new Circle(200, 200);
+      PointsArray.push(point);
+      var point = new Circle(400, 200);
+      PointsArray.push(point);
+      var point = new Circle(100, 300);
       PointsArray.push(point);
       var point = new Circle(300, 300);
       PointsArray.push(point);
-      var point = new Circle(505, 100);
-      PointsArray.push(point);
-      var point = new Circle(500, 300);
-      PointsArray.push(point);
       var edge = new Edge(PointsArray[0], PointsArray[1]);
-      edge.length = 10;
+      edge.length = 9;
       EdgeArray.push(edge);
-      var edge = new Edge(PointsArray[0], PointsArray[2]);
-      edge.length = 5;
+      var edge = new Edge(PointsArray[0], PointsArray[3]);
+      edge.length = 6;
       EdgeArray.push(edge);
       var edge = new Edge(PointsArray[1], PointsArray[2]);
       edge.length = 2;
       EdgeArray.push(edge);
-      var edge = new Edge(PointsArray[2], PointsArray[1]);
-      edge.length = 3;
-      EdgeArray.push(edge);
-      var edge = new Edge(PointsArray[1], PointsArray[3]);
-      edge.length = 1;
-      EdgeArray.push(edge);
       var edge = new Edge(PointsArray[2], PointsArray[3]);
-      edge.length = 9;
+      edge.length = 11;
+      EdgeArray.push(edge);
+      var edge = new Edge(PointsArray[1], PointsArray[4]);
+      edge.length = 14;
       EdgeArray.push(edge);
       var edge = new Edge(PointsArray[2], PointsArray[4]);
-      edge.length = 2;
+      edge.length = 10;
       EdgeArray.push(edge);
-      var edge = new Edge(PointsArray[3], PointsArray[4]);
-      edge.length = 4;
+      var edge = new Edge(PointsArray[3], PointsArray[5]);
+      edge.length = 15;
       EdgeArray.push(edge);
-      var edge = new Edge(PointsArray[4], PointsArray[3]);
-      edge.length = 6;
+      var edge = new Edge(PointsArray[4], PointsArray[5]);
+      edge.length = 1;
       EdgeArray.push(edge);
-      var edge = new Edge(PointsArray[4], PointsArray[0]);
-      edge.length = 2;
-      EdgeArray.push(edge);
-      break;
-      case 2:
-
       break;
       case 3:
 
       break;
-      case 4:
-
-      break;
-      case 5:
-
-      break;
   }
-  generateIndex = (generateIndex + 1) % 6;
+  generateIndex = (generateIndex + 1) % 4;
 }
 
+// Function for starting the game
 function startGame()
 {
-  console.log(gameMode);
   kruksalPoint = undefined;
   options.switchOption(4);
   selected = new Array(EdgeArray.length);
@@ -151,19 +178,27 @@ function startGame()
   resetGraphStyle();
   for (var i = 0; i < EdgeArray.length; i++)
     selected[i] = false;
-  console.log(connectedGraph());
+  if(gameMode == 1)
+  {
+    document.getElementById('modalTitle').innerHTML='Notification!';
+    document.getElementById('modalBody').innerHTML="Select edges according to the Kruskal's algorithm.";
+    $("#alertModal").modal('show');
+  }
+  else
+  {
+    document.getElementById('modalTitle').innerHTML='Notification!';
+    document.getElementById('modalBody').innerHTML="Choose a starting vertex and then select edges according to the Prim's algorithm";
+    $("#alertModal").modal('show');
+  }
 }
 
+// Function for checking if two vertices are inside the same tree
 function sameTree(point1Index, point2Index)
 {
   if(point1Index == point2Index)
     return true;
   var visited = new Array(PointsArray.lenth);
   var vertices = [];
-  /*
-  var point1Index = getIndex(EdgeArray[edgeIndex].point1);
-  var point2Index = getIndex(EdgeArray[edgeIndex].point2);
-  */
   vertices.push(point1Index);
   visited[point1Index] = true;
   dfsIndex = 0;
@@ -197,13 +232,10 @@ function sameTree(point1Index, point2Index)
     }
     dfsIndex++;
   }
-  console.log("Vertices: ");
-  for (var i = 0; i < vertices.length; i++) {
-    console.log(PointsArray[vertices[i]].symbol + " ");
-  }
   return false;
 }
 
+// Function for checking if all vertices are connected inside the graph
 function connectedSpanningTree()
 {
   var visited = new Array(PointsArray.lenth);
@@ -261,7 +293,6 @@ function minimumValue()
   for (var i = 0; i < EdgeArray.length; i++)
     if(!selected[i] && (min == undefined || min > EdgeArray[i].length))
       {
-        console.log("Same tree? - " + sameTree(getIndex(EdgeArray[i].point1), getIndex(EdgeArray[i].point2)));
         if(!sameTree(getIndex(EdgeArray[i].point1), getIndex(EdgeArray[i].point2)))
           min = EdgeArray[i].length;
       }
@@ -274,13 +305,13 @@ function minimumValue2()
   for (var i = 0; i < EdgeArray.length; i++)
     if(!selected[i] && (min == undefined || min > EdgeArray[i].length))
       {
-        console.log("Same tree? - " + sameTree(getIndex(EdgeArray[i].point1), getIndex(EdgeArray[i].point2)));
         if(!sameTree(getIndex(EdgeArray[i].point1), getIndex(EdgeArray[i].point2)) && (sameTree(kruksalPoint, getIndex(EdgeArray[i].point1)) || sameTree(kruksalPoint, getIndex(EdgeArray[i].point2))))
           min = EdgeArray[i].length;
       }
   return min;
 }
 
+// Hnadling event listeners
 window.addEventListener('click', function(event) {
   var selectedEdgeIndex = selectEdge();
   if(options.mode == options.game)
@@ -290,7 +321,6 @@ window.addEventListener('click', function(event) {
       var selectedEdgeIndex = selectEdge();
       if(selectedEdgeIndex != undefined && !selected[selectedEdgeIndex])
       {
-        console.log("Minimum value: " + minimumValue());
         if(EdgeArray[selectedEdgeIndex].length > minimumValue()){
           if(!selected[selectedEdgeIndex])
           {
@@ -320,7 +350,6 @@ window.addEventListener('click', function(event) {
             kruksalPoint = getSelectedPointIndex();
             if(kruksalPoint != null)
             {
-              console.log(kruksalPoint);
               PointsArray[kruksalPoint].styleOption = 2;
             }
           }
@@ -351,6 +380,7 @@ window.addEventListener('click', function(event) {
         }
     }
     size = connectedSpanningTree();
+    // Checking if the game is succesfully solved
     if(size == PointsArray.length)
     {
       document.getElementById('modalTitle').innerHTML='Congratulations!';

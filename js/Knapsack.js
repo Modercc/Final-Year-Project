@@ -108,8 +108,6 @@ function checkSolution()
           }
       }
     }
-    console.log(correctCount);
-    console.log((items + 1) * (capacity + 1));
     if(correctCount == (items + 1) * (capacity + 1))
     {
     document.getElementById('modalTitle').innerHTML='Notification!';
@@ -193,8 +191,4 @@ function checkItemSelection()
     document.getElementById('modalBody').innerHTML='Item selection is not optimal!';;
     $("#alertModal").modal('show');
   }
-  console.log(selectedProfit);
-  console.log(selectedWeight);
-  console.log(kTable[items][capacity]);
-  console.log(kTable);
 }

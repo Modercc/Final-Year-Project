@@ -27,11 +27,10 @@ function circuitExist()
   return true;
 }
 
+// Function to generate exercises
 function generateExercise()
 {
   options.nextChar = 0;
-  for (var i = 0; i < PointsArray.length; i++)
-    console.log("x = " + PointsArray[i].x + " y = " + PointsArray[i].y);
   PointsArray = [];
   EdgeArray = [];
   switch (generateIndex) {
@@ -126,14 +125,8 @@ function generateExercise()
       case 3:
 
       break;
-      case 4:
-
-      break;
-      case 5:
-
-      break;
   }
-  generateIndex = (generateIndex + 1) % 6;
+  generateIndex = (generateIndex + 1) % 4;
 }
 
 // Set all variables and event handlers
@@ -166,6 +159,7 @@ function startGame()
 
 }
 
+// Function reinitialize arrays
 function initiliazeArr()
 {
   circuit = [];
@@ -191,6 +185,7 @@ function selectablePoint(selectedPointIndex)
   return false;
 }
 
+// Function to check if two vertices are connected
 function isConnected(point1, point2)
 {
   if(point1 == undefined || point2 == undefined)
@@ -201,11 +196,11 @@ function isConnected(point1, point2)
 return undefined;
 }
 
+// Click event handler
 window.addEventListener('click', function(event) {
   var selectedPointIndex = getSelectedPointIndex();
   if(options.mode == options.game && selectedPointIndex != undefined)
   {
-    console.log(circuit);
     if(circuit.length == 0)
     {
       if(selectablePoint(selectedPointIndex) && degrees[selectedPointIndex] != 0)
@@ -228,6 +223,7 @@ window.addEventListener('click', function(event) {
   }
 });
 
+// Adding vertices to the merging boxes
 function addPoint(pointIndex)
 {
   PointsArray[pointIndex].styleOption = 2;
@@ -267,6 +263,7 @@ function pathCreated()
   return true;
 }
 
+// Function to merge circuits
 function mergeCircuits()
 {
   var i = 0;
@@ -310,10 +307,10 @@ function writeCircuits()
     draggableCircuit.removeChild(draggableCircuit.firstChild);
 }
 
+// Handling drag and drop events
 function dragStart(event)
 {
   event.dataTransfer.setData("text", event.target.id);
-  console.log(event.dataTransfer.getData("text"));
 }
 
 function dragEnter(event)
@@ -342,11 +339,6 @@ function drop(event)
 {
   event.preventDefault();
   event.target.classList.remove("hover");
-  /*
-  if(event.target != droppableCircuit)
-    event.target.style.backgroundColor = "white";
-  */
-  console.log(circuit);
   if((finalCircuit.length == 0 && event.target == droppableCircuit) || (circuit.length != 0 && event.target.innerHTML == PointsArray[circuit[0]].symbol))
   {
     mergeCircuits();

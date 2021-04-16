@@ -108,7 +108,6 @@ function checkSolution(arr)
         if(cellValue != "")
         {
           cellValue = parseInt(cellValue);
-          console.log(cellValue);
           if(cellValue != arr[i][j - 1])
             table.rows[i].cells[j ].children[0].children[0].value = "";
           else
@@ -136,7 +135,6 @@ function checkSolution(arr)
 
 function checkFinalSolution(input)
 {
-  console.log("in");
   var solution
   if(gameMode == 0)
     solution = computeLCSFinalSolution();

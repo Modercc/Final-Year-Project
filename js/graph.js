@@ -3,9 +3,11 @@ canvas.width = document.getElementById('canvasDiv').offsetWidth;
 canvas.height = document.getElementById('canvasDiv').offsetHeight*0.7;
 var c = canvas.getContext('2d');
 
+// Arrays for storing vertices and edges
 var PointsArray = [];
 var EdgeArray = [];
 
+// Object for contrloing different graph options
 options = {
   mode: undefined,
   select: 0,
@@ -38,6 +40,7 @@ function resetGraphStyle()
     EdgeArray[i].styleOption = 1;
 }
 
+// Handling click events
 window.addEventListener('click', function(event) {
   var bounds = canvas.getBoundingClientRect();
   click.x = event.x - bounds.left;
@@ -69,14 +72,7 @@ window.addEventListener('click', function(event) {
     case options.select:
       if(options.selectedPoint == undefined)
       {
-        /*
-        console.log(EdgeArray);
-        for (var i = 0; i < EdgeArray.length; i++)
-          if(EdgeArray[i].distance(click.x, click.y))
-          {
-            EdgeArray[i].setLength(prompt("Enter the length"));
-          }
-          */
+
       }
     break;
     default:
@@ -92,36 +88,9 @@ function selectEdge()
     if(EdgeArray[i].distance(hover.x, hover.y))
       return i;
   return undefined;
-  /*
-  for (var i = 0; i < EdgeArray.length; i++)
-  {
-    var x1 = EdgeArray[i].point1.x;
-    var x2 = EdgeArray[i].point2.x;
-    var y1 = EdgeArray[i].point1.y;
-    var y2 = EdgeArray[i].point2.y;
-    if(x1 == x2)
-    {
-      if(y1 > y2)
-        y2 = [y1, y1 = y2][0];
-      if(hover.y > y1 && hover.y < y2 && hover.x < (x1 + diff) && hover.x > (x1 + diff))
-        return i;
-    }
-    else
-    {
-      if(x1 > x2)
-        {
-          x2 = [x1, x1 = x2][0];
-          y2 = [y1, y1 = y2][0];
-        }
-      k = (y2-y1)/(x2-x1);
-      if(hover.x > x1 && hover.x < x2 && (hover.x * k) > (hover.y - diff) && (hover.x * k) < (hover.y + diff))
-        return i
-    }
-  }
-  return undefined;
-  */
 }
 
+// Checking if the graph is connected
 function connectedGraph()
 {
   var visited = new Array(PointsArray.lenth);
@@ -155,13 +124,13 @@ function connectedGraph()
     }
     dfsIndex++;
   }
-  console.log(vertices);
   if(vertices.length == PointsArray.length)
     return true;
   else
     return false;
 }
 
+// Hnadling mousedown events
 window.addEventListener('mousedown', function(event)
 {
   if(options.mode == options.select)
@@ -187,6 +156,7 @@ window.addEventListener('mousedown', function(event)
   }
 });
 
+// Handling mouseup events
 window.addEventListener('mouseup', function(event)
 {
   if(options.mode == options.select)
@@ -373,6 +343,7 @@ function Edge(point1, point2)
       return false;
   }
 
+// Function for drawing arrows
   this.arrowDraw = function() {
   var size = 15;
   var eCoor = this.multipleEdges();
@@ -387,6 +358,7 @@ function Edge(point1, point2)
   c.lineTo(this.point2.x - size * Math.cos(angle + Math.PI / 15), this.point2.y - size * Math.sin(angle + Math.PI / 15));
 }
 
+// Function for showing symbols inside graphs
   this.symbolCoordinates = function()
   {
     var a = this.point1.y - this.point2.y;
@@ -399,6 +371,7 @@ function Edge(point1, point2)
     return [x, y];
   }
 
+// Function for handling multiple edges case
   this.multipleEdges = function()
   {
     number = this.identicalEdgesNumber();
@@ -492,7 +465,6 @@ function Edge(point1, point2)
       c.fillStyle = "white";
       var symbolCoo = [];
       symbolCoo = this.multipleEdges();
-      console.log(symbolCoo);
       c.font = "30px Arial";
       c.fillText(this.symbol, symbolCoo[0], symbolCoo[1]);
     }
@@ -515,6 +487,7 @@ function getSelectedPointIndex()
   return undefined;
 }
 
+// Function for graph graphics
 function spawnGraph()
 {
   c.clearRect(0, 0, canvas.width, canvas.height);

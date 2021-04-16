@@ -7,15 +7,15 @@ var iteration;
 var backtracking;
 var generateIndex = 0;
 
+// Setting graph options
 options.edgeLength = true;
 options.multipleEdges = true;
 options.drawArrows = true;
 
+// Function to generate examples
 function generateExercise()
 {
   options.nextChar = 0;
-  for (var i = 0; i < PointsArray.length; i++)
-    console.log("x = " + PointsArray[i].x + " y = " + PointsArray[i].y);
   PointsArray = [];
   EdgeArray = [];
   switch (generateIndex) {
@@ -101,21 +101,51 @@ function generateExercise()
       EdgeArray.push(edge);
       break;
       case 2:
-
+        var point = new Circle(200, 100);
+        PointsArray.push(point);
+        var point = new Circle(300, 100);
+        PointsArray.push(point);
+        var point = new Circle(400, 100);
+        PointsArray.push(point);
+        var point = new Circle(100, 200);
+        PointsArray.push(point);
+        var point = new Circle(200, 200);
+        PointsArray.push(point);
+        var point = new Circle(400, 200);
+        PointsArray.push(point);
+        var edge = new Edge(PointsArray[0], PointsArray[1]);
+        edge.length = 5;
+        EdgeArray.push(edge);
+        var edge = new Edge(PointsArray[1], PointsArray[0]);
+        edge.length = 3;
+        EdgeArray.push(edge);
+        var edge = new Edge(PointsArray[1], PointsArray[2]);
+        edge.length = 4;
+        EdgeArray.push(edge);
+        var edge = new Edge(PointsArray[4], PointsArray[0]);
+        edge.length = 1;
+        EdgeArray.push(edge);
+        var edge = new Edge(PointsArray[5], PointsArray[1]);
+        edge.length = 2;
+        EdgeArray.push(edge);
+        var edge = new Edge(PointsArray[4], PointsArray[5]);
+        edge.length = 4;
+        EdgeArray.push(edge);
+        var edge = new Edge(PointsArray[5], PointsArray[4]);
+        edge.length = 7;
+        EdgeArray.push(edge);
+        var edge = new Edge(PointsArray[3], PointsArray[4]);
+        edge.length = 9;
+        EdgeArray.push(edge);
       break;
       case 3:
 
       break;
-      case 4:
-
-      break;
-      case 5:
-
-      break;
   }
-  generateIndex = (generateIndex + 1) % 6;
+  generateIndex = (generateIndex + 1) % 4;
 }
 
+// Function to start the game
 function startGame()
 {
   options.switchOption(4);
@@ -144,6 +174,7 @@ function startGame()
 
 }
 
+// Function to generate a table
 function generateTableHeader()
 {
   var theader = '<table id = "table" class = " table table-bordered> <thead class="bg-primary text-light"> <tr> <th> </th>';
@@ -183,6 +214,7 @@ function minIndex()
 
 function calculateRow()
 {
+  console.log(top);
   var top = selected[selected.length - 1];
   for (var i = 0; i < EdgeArray.length; i++)
     if(EdgeArray[i].point1 == PointsArray[top])
@@ -194,10 +226,9 @@ function calculateRow()
         b[index] = top;
       }
     }
-    console.log(b);
-    console.log(d);
 }
 
+// Function to check the solution
 function checkSolution()
 {
   var allCorrect = true;
@@ -235,7 +266,6 @@ function checkSolution()
         }
       }
     }
-    console.log(b[i]);
     if(bRow.cells[i + 1].children[0] != undefined)
     {
       var bValue = bRow.cells[i + 1].children[0].value;
@@ -282,6 +312,7 @@ function checkSolution()
   }
 }
 
+// Function to generate table row
 function generateTableRow()
 {
   var tbody = '<tr> <td> d: </td>';
@@ -312,6 +343,7 @@ function generateTableRow()
   document.getElementById('set').innerHTML = setS;
 }
 
+// Hnadling click event
 window.addEventListener('click', function(event)
 {
   if(options.mode == options.game)
@@ -359,7 +391,6 @@ window.addEventListener('click', function(event)
         var paragraph = document.getElementById('backtracking');
         if(pointIndex != undefined && pointIndex == varGoal)
         {
-          console.log(varGoal);
           PointsArray[pointIndex].styleOption = 2;
           if(goal == varGoal)
             {
