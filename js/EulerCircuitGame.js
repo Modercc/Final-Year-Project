@@ -1,3 +1,4 @@
+// Declaring and initalizing necessary variables
 var circuit = [];
 var finalCircuit = [];
 var finalDegrees;
@@ -8,10 +9,11 @@ var draggableCircuit = document.getElementById('draggable-elements');
 var droppableCircuit = document.getElementById('droppable-space');
 var generateIndex = 0;
 
-
+// Adding event listeners for the drag and drop event
 draggableCircuit.addEventListener("dragstart", dragStart);
 droppableCircuit.addEventListener("drop", drop);
 
+// Selecting multiple edges graph option
 options.multipleEdges = true;
 
 // To check if the game can start at all
@@ -175,6 +177,7 @@ function initiliazeArr()
   draggableCircuit.innerHTML = "";
 }
 
+// Functions for checking if a vertex can be added to the circuit
 function selectablePoint(selectedPointIndex)
 {
   if(finalCircuit.length == 0)
@@ -255,6 +258,7 @@ function addPoint(pointIndex)
   }
 }
 
+// Function for checking if the Euler Circuit is successfully created
 function pathCreated()
 {
   for (var i = 0; i < finalDegrees.length; i++)
@@ -287,6 +291,7 @@ function mergeCircuits()
 
 }
 
+// Function for displaying circuits
 function writeCircuits()
 {
   while (droppableCircuit.firstChild) {
@@ -307,7 +312,7 @@ function writeCircuits()
     draggableCircuit.removeChild(draggableCircuit.firstChild);
 }
 
-// Handling drag and drop events
+// Handling drag and drop events for the merging boxes
 function dragStart(event)
 {
   event.dataTransfer.setData("text", event.target.id);

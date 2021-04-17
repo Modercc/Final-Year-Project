@@ -1,3 +1,4 @@
+// Declaring all necessary variables
 var capacity;
 var items;
 var kTable;
@@ -42,6 +43,7 @@ function generateExercise()
   }
 }
 
+// Function to generate the first table
 function generateTable()
 {
   generatedExercise = false;
@@ -61,6 +63,7 @@ function generateTable()
   document.getElementById('table_div').innerHTML = theader + tbody + button;
 }
 
+// Function to generate the secomd table
 function generateAnotherTable()
 {
   var theader = '<table class = "itemi table table-bordered" id="ne znam"> <thead class="bg-primary text-light"> <tr> <th scope="col"></th>';
@@ -88,6 +91,7 @@ function generateAnotherTable()
   document.getElementById('inputSolutionTable').innerHTML = theader + tbody + button;
 }
 
+// Function for checking if the numbers in the solution table are correct
 function checkSolution()
 {
   generateResult();
@@ -117,6 +121,7 @@ function checkSolution()
   }
 }
 
+// Function that generates a correct solution
 function generateResult()
 {
 
@@ -137,6 +142,7 @@ function generateResult()
     knapsackAlgorithm();
 }
 
+// Function that implements Knapsack algorithm
 function knapsackAlgorithm()
 {
     kTable = new Array(items)
@@ -154,6 +160,7 @@ function knapsackAlgorithm()
                 kTable[i][j] = kTable[i - 1][j];
 }
 
+// Function to generate item selection check buttons
 function generateItemsSelection()
 {
   var itemsSelection = "<form id = 'itemsSelection'> ";
@@ -166,6 +173,7 @@ function generateItemsSelection()
   itemsSelectionDiv.innerHTML = itemsSelection;
 }
 
+// Function for checking the correctness of selected items
 function checkItemSelection()
 {
   var selectedProfit = 0;

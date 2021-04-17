@@ -1,3 +1,4 @@
+// Declaring necessary variables
 var s1;
 var s2;
 var lcsTable;
@@ -6,6 +7,7 @@ var gameMode = 1;
 var arrowSrc = ["../images/arrow-l.png", "../images/arrow-u.png", "../images/arrow-d.png", "../images/x.png"];
 var correctCount;
 
+// Function for producing random strings
 function produceRandomString()
 {
   var a = 'a';
@@ -19,6 +21,7 @@ function produceRandomString()
   return str;
 }
 
+// Function that collects input strings
 function collectInput()
 {
   s1 = document.getElementById('s1').value;
@@ -26,6 +29,7 @@ function collectInput()
   generateTable();
 }
 
+// Function that generate random exercises
 function generateExercise()
 {
   s1 = produceRandomString();
@@ -37,6 +41,7 @@ function generateExercise()
   generateTable();
 }
 
+// Function that generates input solution table
 function generateTable()
 {
   correctCount = 0;
@@ -69,6 +74,7 @@ function generateTable()
   scs();
 }
 
+// Function for switching arrow pictures
 function imageIndex(image)
 {
   var index;
@@ -91,6 +97,7 @@ function imageIndex(image)
   return index;
 }
 
+// Function for changing the direction of the arrows in the solution table
 function swapArrow(image)
 {
   var i = imageIndex(image);
@@ -98,6 +105,7 @@ function swapArrow(image)
   image.src = arrowSrc[i];
 }
 
+// Function for checking the correctness of the solution
 function checkSolution(arr)
 {
   var table = document.getElementById("solution");
@@ -133,6 +141,7 @@ function checkSolution(arr)
   }
 }
 
+// Function that checks the correctness of the string solution
 function checkFinalSolution(input)
 {
   var solution
@@ -155,6 +164,7 @@ function checkFinalSolution(input)
   }
 }
 
+// Function that calculates LCS solution string from the solution table
 function computeLCSFinalSolution()
 {
   var solution = "";
@@ -193,6 +203,7 @@ function computeLCSFinalSolution()
   return solution;
 }
 
+// Function that calculates SCS solution string from the solution table
 function computeSCSFinalSolution()
 {
   var solution = "";
@@ -238,6 +249,7 @@ function computeSCSFinalSolution()
   return solution;
 }
 
+// Function that implements LCS algorithm
 function lcs()
 {
     lcsTable = new Array(s2.length + 1);
@@ -258,6 +270,7 @@ function lcs()
                 lcsTable[i][j] = Math.max(lcsTable[i-1][j], lcsTable[i][j-1]);
 }
 
+// Function that checks the orientation of arrows inside the solution table for the LCS problem
 function lcsArrowsCheck()
 {
   var table = document.getElementById("solution");
@@ -300,6 +313,7 @@ function lcsArrowsCheck()
     return correct;
 }
 
+// Function that implements SCS algorithm
 function scs()
 {
   scsTable = new Array(s2.length + 1)
@@ -317,6 +331,7 @@ function scs()
             scsTable[i][j] = Math.min(scsTable[i-1][j] + 1, scsTable[i][j-1] + 1);
 }
 
+// Function that checks the orientation of arrows inside the solution table for the SCS problem
 function scsArrowsCheck()
 {
   var table = document.getElementById("solution");

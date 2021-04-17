@@ -1,3 +1,4 @@
+// Initializing canvas element
 var canvas = document.querySelector('canvas');
 canvas.width = document.getElementById('canvasDiv').offsetWidth;
 canvas.height = document.getElementById('canvasDiv').offsetHeight*0.7;
@@ -32,6 +33,7 @@ options = {
   }
 }
 
+// Function to reset the graph
 function resetGraphStyle()
 {
   for (var i = 0; i < PointsArray.length; i++)
@@ -187,6 +189,7 @@ window.addEventListener('mouseup', function(event)
   }
 });
 
+// Handling mouse down event
 window.addEventListener('mousemove', function(event) {
   var bounds = canvas.getBoundingClientRect();
   hover.x = event.x - bounds.left;
@@ -199,6 +202,7 @@ window.addEventListener('mousemove', function(event) {
   requestAnimationFrame(spawnGraph);
 });
 
+// Stroing coordinates for click, hover and drag
 var click = {
   x: undefined,
   y:undefined
@@ -214,6 +218,7 @@ var drag = {
   y: undefined
 }
 
+// Function to check if the given coordinates are valid vertex position
 function validPointPosition(x, y)
 {
   if(x + 10 > canvas.width || x - 10 <0 || y + 10 > canvas.height || y- 10 < 0)
@@ -221,6 +226,7 @@ function validPointPosition(x, y)
   return true;
 }
 
+// Function to obtain the index of a vertex
 function getIndex(point)
 {
   for (var i = 0; i < PointsArray.length; i++)
@@ -230,7 +236,6 @@ function getIndex(point)
 }
 
 // Class Circle is used for drawing points.
-
 function Circle(x, y) {
   this.x = x;
   this.y = y;
@@ -293,8 +298,7 @@ function Circle(x, y) {
   }
 }
 
-// Class Edge is used for drawing edges.
-
+// Function for obtaining the next charcter symbol
 function getNextChar()
 {
   var a = 'a';
@@ -303,6 +307,7 @@ function getNextChar()
   return a;
 }
 
+// Function validating an edge
 function validEdge(point1, point2) {
 
   if(point1 == point2)
@@ -317,6 +322,7 @@ function validEdge(point1, point2) {
   return true;
 }
 
+// Class Edge is used for drawing edges.
 function Edge(point1, point2)
 {
   this.point1 = point1;
@@ -479,6 +485,7 @@ function Edge(point1, point2)
   }
 }
 
+// Function for identifying the index of the clicked vertex
 function getSelectedPointIndex()
 {
   for (var i = 0; i < PointsArray.length; i++)
@@ -517,4 +524,5 @@ function spawnGraph()
   }
 }
 
+// Setting interval for graphic updates
 setInterval(spawnGraph, 50);

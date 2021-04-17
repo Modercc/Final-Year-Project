@@ -1,3 +1,4 @@
+// Declaring the necessary variables
 var selected;
 var goal;
 var varGoal;
@@ -152,6 +153,8 @@ function startGame()
   selected = [];
   backtracking = false;
   iteration = 1;
+  goal = undefined;
+  varGoal = undefined;
   var paragraph = document.getElementById('backtracking');
   paragraph.innerHTML = "";
   var table = document.getElementById('inputSolutionTable');
@@ -195,6 +198,7 @@ function generateTableHeader()
   document.getElementById('inputSolutionTable').innerHTML += button;
 }
 
+// Checks if the vertex is inside set S
 function insideSelected(index)
 {
   for (var i = 0; i < selected.length; i++)
@@ -203,15 +207,18 @@ function insideSelected(index)
   return false;
 }
 
+// Calculating the next vertex for the set S
 function minIndex()
 {
   var min = undefined;
   for (var i = 0; i < PointsArray.length; i++)
-    if(!insideSelected(i) && (min == undefined || d[min] > d[i]))
+    if(!insideSelected(i) && ((min == undefined && d[i] != undefined)|| d[min] > d[i]))
       min = i;
+  console.log(min);
   return min;
 }
 
+// Calculates a new row in Dijkstra table
 function calculateRow()
 {
   console.log(top);
@@ -293,6 +300,7 @@ function checkSolution()
         }
       }
   }
+  // Checking if the tables is succesfully filled
   if(allCorrect)
   {
     iteration++;
@@ -305,9 +313,19 @@ function checkSolution()
     }
     else
     {
-      selected.push(minIndex());
-      generateTableRow();
-      calculateRow();
+      var minI = minIndex();
+      if(minI != undefined)
+      {
+        selected.push(minI);
+        generateTableRow();
+        calculateRow();
+      }
+      else
+      {
+        document.getElementById('modalTitle').innerHTML='Notification!';
+        document.getElementById('modalBody').innerHTML='There is no path between the selected vertices.';
+        $("#alertModal").modal('show');
+      }
     }
   }
 }
@@ -406,9 +424,9 @@ window.addEventListener('click', function(event)
               document.getElementById('modalTitle').innerHTML='Congratulations!';
               document.getElementById('modalBody').innerHTML='End of the game!';
               $("#alertModal").modal('show');
+              resertGame();
             }
         }
     }
   }
-
 });

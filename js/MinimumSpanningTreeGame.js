@@ -1,3 +1,4 @@
+// Declaring and Initializing necessary variables
 var gameMode = 1;
 var sum;
 var selected;
@@ -280,6 +281,7 @@ function connectedSpanningTree()
   return vertices.length;
 }
 
+// Function for selecting an edge
 function addEdge(selectedEdgeIndex)
 {
   EdgeArray[selectedEdgeIndex].styleOption = 2;
@@ -287,6 +289,7 @@ function addEdge(selectedEdgeIndex)
   selected[selectedEdgeIndex] = true;
 }
 
+// Functions for calculating the not selected edge with minimal weight
 function minimumValue()
 {
   var min = undefined;
